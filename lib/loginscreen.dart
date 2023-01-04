@@ -19,10 +19,11 @@ class loginscreen extends StatefulWidget {
 
 // ignore: camel_case_types
 class _loginscreenState extends State<loginscreen> {
-  final Auth  _auth = Auth();
+  final Auth _auth = Auth();
   TextEditingController _emailcontroller = TextEditingController();
   TextEditingController _passwordcontroller = TextEditingController();
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
+  bool showSpinner = false;
   String? _email;
 
   @override
@@ -81,10 +82,10 @@ class _loginscreenState extends State<loginscreen> {
       width: width * 0.9,
       child: TextFormField(
         controller: _emailcontroller,
+        autofocus: true,
         decoration: InputDecoration(
           hintText: "Email",
           focusedBorder: OutlineInputBorder(
-           
             borderRadius: BorderRadius.circular(
               20,
             ),
@@ -112,6 +113,7 @@ class _loginscreenState extends State<loginscreen> {
     return Container(
       width: width * 0.9,
       child: TextFormField(
+        autofocus: true,
         controller: _passwordcontroller,
         decoration: InputDecoration(
           hintText: "password",
@@ -128,22 +130,33 @@ class _loginscreenState extends State<loginscreen> {
       ),
     );
   }
+
   Widget _loginButton(double height, double width) {
     return MaterialButton(
-      onPressed: () {
+      onPressed: () async {
         if (_loginFormKey.currentState!.validate()) {
-          final user = _auth.signInWithEmailAndPassword(_emailcontroller.toString(), _passwordcontroller.toString());
-          if (user != null) {
-                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>HomePage()),);
-            }
-            else{
-               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("please enter vaild creditlas"),
-                ),
-              );
-            }
+          setState(() {
+            showSpinner = true;
+          });
+
+          final user = await _auth.signInWithEmailAndPassword(
+              _emailcontroller.toString(), _passwordcontroller.toString()).whenComplete(() => print("login sucessfully"));
+          if (user == null) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("enter valid credential"),
+              ),
+            );
+          }
         }
+        setState(() {
+          showSpinner = false;
+        });
       },
       height: height * 0.080,
       minWidth: width * 0.9,
@@ -157,7 +170,8 @@ class _loginscreenState extends State<loginscreen> {
       ),
     );
   }
-Widget forgetpassword() {
+
+  Widget forgetpassword() {
     return Container(
       child: Text(
         "Forget passwored?",
@@ -170,7 +184,10 @@ Widget forgetpassword() {
     return Container(
       padding: EdgeInsets.only(top: width * 0.06),
       child: GestureDetector(
-        onTap: () => Navigator.pushNamed(context, 'register'),
+        onTap: () => Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => signuppage()),
+        ),
         child: const Text(
           "Don't have an account",
           style: TextStyle(
@@ -179,4 +196,6 @@ Widget forgetpassword() {
       ),
     );
   }
+
+ 
 }

@@ -11,20 +11,46 @@ class Auth{
     try{
     UserCredential userCredential =await _auth.createUserWithEmailAndPassword( email :email, password: password);
 
-    return userCredential.user;
+     User? user= userCredential.user;
+    if(user!= null){
+      return user;
+    }
     
-  }catch(e){
+  }on FirebaseAuthException catch (e) {
+            if (e.code == 'user-not-found') {
+    print('No user found for that email.');
+  } else if (e.code == 'wrong-password') {
+    print('Wrong password provided for that user.');
+  }
+          } 
+  catch(e){
+    print(e);
      
   }
-}  
+    
+  
+     
+  }
+  
 
 Future <User?> signInWithEmailAndPassword( String email, String password) async {
     try{
     UserCredential userCredential =await _auth.signInWithEmailAndPassword( email :email, password: password);
 
-    return userCredential.user;
+    User? user= userCredential.user;
+    if(user!= null){
+      return user;
+    }
     
-  }catch(e){
+  }on FirebaseAuthException catch (e) {
+            if (e.code == 'weak-password') {
+              print("No user found for that email");
+            } else if (e.code == 'wrong-password') {
+               print("Wrong password provided for that user. ");
+            }
+          } 
+  catch(e){
+    print(e);
      
   }
 }  //sign in anon

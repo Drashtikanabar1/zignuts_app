@@ -75,8 +75,10 @@ class _signuppageState extends State<signuppage> {
       width: width * 0.9,
       child: TextFormField(
         controller: _emailcontroller,
+        autofocus: true,
         decoration: InputDecoration(
           hintText: "Email",
+          
           fillColor: Colors.grey.shade100,
           filled: true,
           border: OutlineInputBorder(
@@ -101,6 +103,7 @@ class _signuppageState extends State<signuppage> {
       width: width * 0.9,
       child: TextFormField(
         obscureText: true,
+            autofocus: true,
         controller: _passwordcontroller,
         decoration: InputDecoration(
           hintText: "password",
@@ -123,6 +126,7 @@ class _signuppageState extends State<signuppage> {
       width: width * 0.9,
       child: TextFormField(
           controller: _confirmpasswordcontroller,
+              autofocus: true,
           decoration: InputDecoration(
             hintText: "confirm password",
             fillColor: Colors.grey.shade100,
@@ -143,31 +147,18 @@ class _signuppageState extends State<signuppage> {
 
   Widget _loginButton(double height, double width,BuildContext context) {
     return MaterialButton(
-      onPressed: () {
+      onPressed: () async{
         if (_loginFormKey.currentState!.validate()) {
-          try {
-            final user = _auth.createUserWithEmailAndPassword(
-                _emailcontroller.toString(), _passwordcontroller.toString());
-            if (user != null) {
+          
+        final user =await  _auth.createUserWithEmailAndPassword(
+                _emailcontroller.toString(), _passwordcontroller.text.trim()).whenComplete(() => print("signup"));
+        if (user != null) {
                 Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>HomePage()),);
+            }else{
+              print("123");
             }
-          } on FirebaseAuthException catch (e) {
-            if (e.code == 'weak-password') {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("please enter strong password"),
-                ),
-              );
-            } else if (e.code == 'email-already-in-use') {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("'The account already exists for that email.'"),
-                ),
-              );
-            }
-          } catch (e) {
-            print (e);
-          }
+           
+          
         }
       },
       height: height * 0.070,
