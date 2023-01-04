@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firstapp/auth_database.dart';
 import 'package:firstapp/loginscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -14,7 +15,7 @@ class splashscreen extends StatefulWidget {
 
 class _splashscreenState extends State<splashscreen> {
    
-   
+  
    void initState() {
     super.initState();
     Timer(Duration(seconds: 3),

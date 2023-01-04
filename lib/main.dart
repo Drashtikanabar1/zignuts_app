@@ -1,7 +1,18 @@
+
+import 'package:firstapp/Dashboard.dart';
+import 'package:firstapp/auth_database.dart';
+import 'package:firstapp/loginscreen.dart';
+import 'package:firstapp/signupfile.dart';
 import 'package:firstapp/splachscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp().then((value) => Get.put(Auth()));
   runApp(const MyApp());
 }
 
@@ -17,7 +28,14 @@ class MyApp extends StatelessWidget {
       
         primarySwatch: Colors.blue,
       ),
-      home: splashscreen(),
+       initialRoute: 'splash',
+      routes: {
+        'splash': (context) => splashscreen(),
+        'register': (context) => signuppage(),
+        'login': (context) => loginscreen(),
+        'home':(context) => HomePage(),
+        
+      },
     );
   }
 }
