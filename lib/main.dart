@@ -1,6 +1,7 @@
 
+import 'package:firstapp/Authentication/goole_sign_in.dart';
 import 'package:firstapp/dashboard.dart';
-import 'package:firstapp/auth_database.dart';
+import 'package:firstapp/Authentication/auth_database.dart';
 import 'package:firstapp/change_password.dart';
 import 'package:firstapp/loginscreen.dart';
 import 'package:firstapp/signupfile.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
 
 Future<void> main() async {
@@ -22,8 +24,8 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) =>ChangeNotifierProvider(create :(context)=>GoogleSignInProvider(),
+    child: MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
       
@@ -38,7 +40,8 @@ class MyApp extends StatelessWidget {
         'changepassword':(context)=>ChangePassword(),
         
       },
+    )
     );
   }
-}
+
 

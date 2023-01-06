@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firstapp/auth_database.dart';
+import 'package:firstapp/Authentication/auth_database.dart';
+
 import 'package:firstapp/change_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';

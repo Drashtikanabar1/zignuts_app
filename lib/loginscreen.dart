@@ -2,7 +2,7 @@ import 'package:colours/colours.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/dashboard.dart';
-import 'package:firstapp/auth_database.dart';
+import 'package:firstapp/Authentication/auth_database.dart';
 import 'package:firstapp/reset.dart';
 
 import 'package:firstapp/signupfile.dart';

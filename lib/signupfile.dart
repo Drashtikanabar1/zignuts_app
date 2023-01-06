@@ -1,7 +1,7 @@
 import 'package:colours/colours.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/dashboard.dart';
-import 'package:firstapp/auth_database.dart';
+import 'package:firstapp/Authentication/auth_database.dart';
 import 'package:firstapp/email.dart';
 import 'package:firstapp/loginscreen.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -30,6 +30,11 @@ class _signuppageState extends State<signuppage> {
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
         errorText: "please enter vaild password")
   ]);
+  List images =[
+      "g.png",
+      "t.png",
+      "f.png"
+    ];
   TextEditingController _emailcontroller = TextEditingController();
   TextEditingController _passwordcontroller = TextEditingController();
   TextEditingController _confirmpasswordcontroller = TextEditingController();
@@ -37,6 +42,7 @@ class _signuppageState extends State<signuppage> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return SafeArea(
@@ -87,18 +93,16 @@ class _signuppageState extends State<signuppage> {
                 ],
               ),
             ),
-            SizedBox(
-              height: height * 0.05,
-            ),
+           
             _loginFormWidget(height, width),
+           
+            _loginButton(height, width, context),
             SizedBox(
               height: height * 0.03,
             ),
-            _loginButton(height, width, context),
-            SizedBox(
-              height: height * 0.04,
-            ),
             _RegisterPageLink(width, height),
+            _google(),
+
           ]),
         ),
       ),
@@ -143,7 +147,7 @@ class _signuppageState extends State<signuppage> {
         controller: _usercontroller,
         autofocus: true,
         decoration: InputDecoration(
-          label: Text("username",),
+          label: Text("Username",),
              floatingLabelStyle: TextStyle(color: Colors.pink),
           hintText: "Enter your Name",
          
@@ -310,8 +314,8 @@ class _signuppageState extends State<signuppage> {
                 borderSide: const BorderSide(
                   color: Colors.pink,
                 )),
-            hintText: "confirm password",
-            label: const Text("confirm Password",),
+            hintText: "Confirm password",
+            label: const Text("Confirm Password",),
             floatingLabelStyle: TextStyle(color: Colors.pink),
             
 
@@ -396,5 +400,22 @@ class _signuppageState extends State<signuppage> {
         ),
       ],
     );
+  }
+  Widget _google(){
+    return 
+      Row(
+         children: List<Widget>.generate(
+          3,
+          (index)
+          {
+          return  CircleAvatar(
+                radius: 25,
+                backgroundImage: AssetImage(" assest/images/"+images[index]),
+          );
+         })
+                 
+         
+      );
+    
   }
 }

@@ -36,8 +36,10 @@ dependencies:
   firebase_core: ^2.4.1
   email_validator: '^2.1.16'
   form_field_validator: ^1.1.0
-
+  google_sign_in: ^5.4.2
+  font_awesome_flutter: ^10.3.0
   colours: ^0.0.2
+  provider: ^6.0.5
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -72,6 +74,10 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
         - assest/images/images.jpeg 
+        - assest/images/f.png
+        - assest/images/t.png
+        - assest/images/g.png
+        
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
