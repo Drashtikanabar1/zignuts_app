@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/auth_database.dart';
+import 'package:firstapp/change_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -13,6 +15,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final Auth  _auth = Auth();
   int _currentindex=1;
+  User? currentUser =null;
+
+@override
+  void initState() {
+    currentUser =_auth.getUser();
+    super.initState();
+  }
+  
   static List<Widget> _widgetList =[ 
     Center(child:Text("inside Home screen")),
     Center(child:Text("inside Vendor screen")),
@@ -43,22 +53,22 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           padding: const EdgeInsets.all(0),
           children: [
-            const DrawerHeader(
+             DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.green,
               ), //BoxDecoration
               child: UserAccountsDrawerHeader(
                 decoration: BoxDecoration(color: Colors.green),
                 accountName: Text(
-                  "DRASHTI KANABAR",
+                  currentUser!.displayName ?? "not found",
                   style: TextStyle(fontSize: 18),
                 ),
-                accountEmail: Text("drashtikanbar123@gmail.com"),
+                accountEmail: Text(currentUser!.email ?? "not found"),
                 currentAccountPictureSize: Size.square(50),
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Color.fromARGB(255, 165, 255, 137),
                   child: Text(
-                    "D",
+                    currentUser!.displayName!.substring(0,1).toUpperCase(),
                     style: TextStyle(fontSize: 30.0, color: Colors.blue),
                   ), //Text
                 ), //circleAvatar
@@ -94,9 +104,12 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
               leading: const Icon(Icons.edit),
-              title: const Text(' Edit Profile '),
+              title: const Text(' change password'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ChangePassword()),
+                );
               },
             ),
             ListTile(
@@ -118,27 +131,27 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(  
             icon: Icon(Icons.home),  
             label: "Home", 
-            backgroundColor: Colors.green  
+        
           ),  
           BottomNavigationBarItem(  
             icon: Icon(Icons.person),  
             label: "vendors",
-            backgroundColor: Colors.yellow  
+         
           ),  
           BottomNavigationBarItem(  
             icon: Icon(Icons.list),  
             label: "Lists",
-            backgroundColor: Colors.blue,  
+          
           ), 
            BottomNavigationBarItem(  
             icon: Icon(Icons.category_outlined),  
             label: "categories",
-            backgroundColor: Colors.red,  
+          
           ), 
            BottomNavigationBarItem(  
             icon: Icon(Icons.more),  
             label: "More",
-            backgroundColor: Colors.orangeAccent,  
+           
           ),  
         ],
            type: BottomNavigationBarType.shifting,  
@@ -149,5 +162,25 @@ class _HomePageState extends State<HomePage> {
         elevation: 5  
        ),  
     );
+  }
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Are you sure?'),
+            content :Text('Do you want to exit the App'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('No'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
   }
 }

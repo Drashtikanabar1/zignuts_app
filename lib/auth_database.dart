@@ -1,19 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firstapp/Dashboard.dart';
+import 'package:firstapp/dashboard.dart';
 
 
 class Auth{
 
-  final FirebaseAuth _auth =FirebaseAuth.instance;
+ FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future <User?> createUserWithEmailAndPassword( String email, String password) async {
+   User? getUser(){
+    return _auth.currentUser;
+   }
+
+  Future <String?> creatnewaccount(String email, String password,String username) async {
     try{
-    UserCredential userCredential =await _auth.createUserWithEmailAndPassword( email :email, password: password);
+    UserCredential userCredential = await _auth.createUserWithEmailAndPassword( email :email, password: password);
 
      User? user= userCredential.user;
+     await user?.updateDisplayName(username);
     if(user!= null){
-      return user;
+      return "sucess";
     }
     
   }on FirebaseAuthException catch (e) {
@@ -33,7 +38,7 @@ class Auth{
   }
   
 
-Future <User?> signInWithEmailAndPassword( String email, String password) async {
+Future <User?> signInWithEmailAndPassword(String email, String password) async {
     try{
     UserCredential userCredential =await _auth.signInWithEmailAndPassword( email :email, password: password);
 
@@ -53,7 +58,21 @@ Future <User?> signInWithEmailAndPassword( String email, String password) async 
     print(e);
      
   }
-}  //sign in anon
+}  
+
+Future<String?> chnagePassword(String confirmpassword)async{
+  try {
+    await _auth .currentUser!.updatePassword(confirmpassword,);
+    return "sucess";
+  }on FirebaseAuthException catch (e) {
+            if (e.code == 'network-request-failed') {
+              print("no conecetion");
+            }}catch (e) {
+   
+  }
+}
+
+//sign in anon
   sigOut(){
     _auth.signOut();
 } 

@@ -1,6 +1,7 @@
 
-import 'package:firstapp/Dashboard.dart';
+import 'package:firstapp/dashboard.dart';
 import 'package:firstapp/auth_database.dart';
+import 'package:firstapp/change_password.dart';
 import 'package:firstapp/loginscreen.dart';
 import 'package:firstapp/signupfile.dart';
 import 'package:firstapp/splachscreen.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         'register': (context) => signuppage(),
         'login': (context) => loginscreen(),
         'home':(context) => HomePage(),
+        'changepassword':(context)=>ChangePassword(),
         
       },
     );
