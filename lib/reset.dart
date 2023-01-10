@@ -1,6 +1,7 @@
 import 'package:colours/colours.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/loginscreen.dart';
+import 'package:firstapp/resources/colors_manager.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
@@ -105,12 +106,12 @@ class _ResetPageState extends State<ResetPage> {
       padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04),
       child: TextFormField(
         decoration:  InputDecoration(hintText: "Email address",label:const Text("Email address"),
-             floatingLabelStyle:const  TextStyle(color: Colors.pink),focusedBorder: OutlineInputBorder(
+             floatingLabelStyle: TextStyle(color: ColorManager.primary),focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
                 20,
               ),
-              borderSide:const BorderSide(
-                color:Colours.pink,
+              borderSide: BorderSide(
+                color:ColorManager.primary,
               )),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
@@ -138,7 +139,7 @@ class _ResetPageState extends State<ResetPage> {
         
         child: ElevatedButton(
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.pink)),
+                backgroundColor: MaterialStateProperty.all(ColorManager.primary)),
             child: Text("Rest PassWord", style: TextStyle(color: Colors.white)),
             onPressed: () async {
               try {

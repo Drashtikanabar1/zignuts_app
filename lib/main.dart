@@ -1,5 +1,6 @@
 
 import 'package:firstapp/Authentication/goole_sign_in.dart';
+import 'package:firstapp/Pages/Dashboard_pages/categories.dart';
 import 'package:firstapp/dashboard.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
 import 'package:firstapp/change_password.dart';
@@ -31,13 +32,15 @@ class MyApp extends StatelessWidget {
       
         primarySwatch: Colors.blue,
       ),
-       initialRoute: 'splash',
+       initialRoute: 'home',
       routes: {
         'splash': (context) => splashscreen(),
         'register': (context) => signuppage(),
         'login': (context) => loginscreen(),
         'home':(context) => HomePage(),
         'changepassword':(context)=>ChangePassword(),
+        'categories':(context) => Categories(),
+       
         
       },
     )

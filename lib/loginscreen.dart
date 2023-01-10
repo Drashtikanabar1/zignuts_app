@@ -3,7 +3,9 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/dashboard.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
+import 'package:firstapp/email.dart';
 import 'package:firstapp/reset.dart';
+import 'package:firstapp/resources/colors_manager.dart';
 
 import 'package:firstapp/signupfile.dart';
 // ignore: unnecessary_import
@@ -105,9 +107,9 @@ class _loginscreenState extends State<loginscreen> {
         children: [
           Container(
             padding: EdgeInsets.only(left: width * 0.06),
-            child: const Text(
+            child:  Text(
               "Welcome!",
-              style: TextStyle(fontSize: 30, color: Colors.pink),
+              style: TextStyle(fontSize: 30, color: ColorManager.primary),
             ),
           ),
           SizedBox(
@@ -136,112 +138,13 @@ class _loginscreenState extends State<loginscreen> {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _emailTextfield(height, width),
-          SizedBox(
-            height: height * 0.03,
-          ),
-          _passwordTextfield(height, width),
+          email(hintext: "email", label: "Email", controller:_emailcontroller,validate: emailValidator),
+           SizedBox(height: height*0.03,),
+          email(hintext: "password", label: "password", controller: _passwordcontroller,validate :passValidator)
         ],
       ),
     ));
   }
-
-  Widget _emailTextfield(double height, double width) {
-    return Container(
-      decoration: BoxDecoration(boxShadow: [
-        BoxShadow(
-          blurRadius: 10,
-          offset: Offset(
-            1,
-            1,
-          ),
-          color: Colors.grey.withOpacity(0.5),
-        ),
-      ]),
-      width: width * 0.8,
-      child: TextFormField(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        controller: _emailcontroller,
-        autofocus: true,
-        decoration: InputDecoration(
-          label:const Text("Email"),
-             floatingLabelStyle: TextStyle(color: Colors.pink),
-          hintText: "Email",
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                20,
-              ),
-              borderSide:const BorderSide(
-                color:Colours.pink,
-              )),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                20,
-              ),
-              borderSide: const BorderSide(
-                color: Colors.white,
-              )),
-          fillColor: Colors.grey.shade100,
-          filled: true,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              20,
-            ),
-          ),
-        ),
-        validator: emailValidator,
-      ),
-    );
-  }
-
-  Widget _passwordTextfield(double height, double width) {
-    return Container(
-      decoration: BoxDecoration(boxShadow: [
-        BoxShadow(
-          blurRadius: 10,
-          offset: Offset(
-            1,
-            1,
-          ),
-          color: Colors.grey.withOpacity(0.5),
-        ),
-      ]),
-      width: width * 0.8,
-      child: TextFormField(
-        autofocus: true,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        controller: _passwordcontroller,
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                20,
-              ),
-              borderSide: BorderSide(
-                color: Colors.white,
-              )),
-              focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                20,
-              ),
-              borderSide: BorderSide(
-                color:Colours.pink,
-              )),
-          label: const Text("Password"),
-             floatingLabelStyle: TextStyle(color: Colors.pink),
-          hintText: "Password",
-          fillColor: Colors.white,
-          filled: true,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              20,
-            ),
-          ),
-        ),
-        validator: passValidator,
-      ),
-    );
-  }
-
   Widget _loginButton(double height, double width) {
     return MaterialButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -274,7 +177,7 @@ class _loginscreenState extends State<loginscreen> {
       },
       minWidth: width * 0.8,
       height: height * 0.06,
-      color: Colors.pink,
+      color: ColorManager.primary,
       child: const Text(
         "Log in",
         style: TextStyle(
@@ -321,10 +224,10 @@ class _loginscreenState extends State<loginscreen> {
                 MaterialPageRoute(builder: (context) => const signuppage()),
               ),
               child: RichText(
-                text: const TextSpan(
+                text:  TextSpan(
                     text: "Create",
                     style: TextStyle(
-                      color: Colors.pink,
+                      color: ColorManager.primary,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     )),

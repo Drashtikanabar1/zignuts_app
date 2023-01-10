@@ -13,23 +13,26 @@ class Auth{
 
   Future <String?> creatnewaccount(String email, String password,String username) async {
     try{
-    UserCredential userCredential = await _auth.createUserWithEmailAndPassword( email :email, password: password);
+    UserCredential? userCredential = await _auth.createUserWithEmailAndPassword( email :email, password: password);
 
      User? user= userCredential.user;
      await user?.updateDisplayName(username);
     if(user!= null){
       return "sucess";
+    }else{
+      return null;
     }
     
+    
   }on FirebaseAuthException catch (e) {
-            if (e.code == 'user-not-found') {
-    print('No user found for that email.');
+            if (e.code == 'email-already-use-in') {
+    return'No user found for that email.';
   } else if (e.code == 'wrong-password') {
     print('Wrong password provided for that user.');
   }
           } 
   catch(e){
-    print(e);
+    print(e.toString());
      
   }
     

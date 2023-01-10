@@ -2,6 +2,7 @@ import 'dart:async';
 
 
 import 'package:firstapp/loginscreen.dart';
+import 'package:firstapp/resources/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -36,7 +37,7 @@ class _splashscreenState extends State<splashscreen> {
       child:Column(
             children: <Widget>[
               Padding(padding: EdgeInsets.only(top:height*0.400,),),
-              Image.asset('assest/images/images.jpeg',
+              Image.asset(ImageAssets.splashLogo,
                   height: height*0.2,
                   scale: 2.5,
                   // color: Color.fromARGB(255, 15, 147, 59),

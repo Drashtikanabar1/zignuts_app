@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
 
 import 'package:firstapp/loginscreen.dart';
-import 'package:firstapp/password.dart';
+
+import 'package:firstapp/resources/colors_manager.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
@@ -114,7 +115,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04),
       child: TextFormField(
         decoration:  InputDecoration(hintText: "Password",label:const Text("Password"),
-             floatingLabelStyle:const  TextStyle(color: Colors.pink),focusedBorder: OutlineInputBorder(
+             floatingLabelStyle: TextStyle(color: ColorManager.primary),focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
                 20,
               ),
@@ -145,7 +146,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04),
       child: TextFormField(
         decoration:  InputDecoration(hintText: "Password",label:const Text("Confirm Password"),
-             floatingLabelStyle:const  TextStyle(color: Colors.pink),focusedBorder: OutlineInputBorder(
+             floatingLabelStyle: TextStyle(color: ColorManager.primary),focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
                 20,
               ),
@@ -181,7 +182,7 @@ class _ChangePasswordState extends State<ChangePassword> {
         
         child: ElevatedButton(
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.pink)),
+                backgroundColor: MaterialStateProperty.all(ColorManager.primary)),
             child: Text("Rest PassWord", style: TextStyle(color: Colors.white)),
             onPressed: () async {
               if (_loginFormKey.currentState!.validate()) {
