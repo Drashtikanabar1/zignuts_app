@@ -1,32 +1,28 @@
 import 'package:colours/colours.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firstapp/Authentication/auth_database.dart';
-
-import 'package:firstapp/loginscreen.dart';
-
+import 'package:firstapp/login_signup/loginscreen.dart';
 import 'package:firstapp/resources/colors_manager.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-class ChangePassword extends StatefulWidget {
-  const ChangePassword({super.key});
-  
+import 'package:get/get_navigation/src/routes/default_transitions.dart';
+
+class ResetPage extends StatefulWidget {
+  const ResetPage({super.key});
+
   @override
-  State<ChangePassword> createState() => _ChangePasswordState();
+  State<ResetPage> createState() => _ResetPageState();
 }
 
-class _ChangePasswordState extends State<ChangePassword> {
-  final Auth _auth = Auth();
+class _ResetPageState extends State<ResetPage> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   TextEditingController _emailcontroller = TextEditingController();
-    TextEditingController _passwordcontroller = TextEditingController();
-  TextEditingController _confirmpasswordcontroller = TextEditingController();
-  final passValidator = MultiValidator([
-    RequiredValidator(errorText: 'password is requried'),
+  final emailValidator = MultiValidator([
+    RequiredValidator(errorText: 'email is requried'),
     PatternValidator(
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
-        errorText: "please enter vaild password")
+        errorText: "please enter vaild email")
   ]);
 
   @override
@@ -48,12 +44,9 @@ class _ChangePasswordState extends State<ChangePassword> {
             children: [
               Align(alignment: Alignment.centerLeft, child: _titleWidget(h, w)),
               SizedBox(
-                height: h * 0.05,
+                height: h * 0.015,
               ),
               _loginFormWidget(h, w),
-               SizedBox(
-                height: h * 0.05,
-              ),
               _sendlink(h, w),
             ],
           ),
@@ -74,7 +67,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               padding: EdgeInsets.only(left: w * 0.04),
               child: RichText(
                 text: const TextSpan(
-                    text: "Create new Password",
+                    text: "Reset Password",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 25,
@@ -84,8 +77,8 @@ class _ChangePasswordState extends State<ChangePassword> {
             ),
             Container(
                 padding: EdgeInsets.only(left: w * 0.04, top: h * 0.02),
-                child: const Text(
-                    "Your new password must be differnt from pervious used passwords",),
+                child: Text(
+                    "Enter the email associted with your account and we'll send an email with instruction to reset your password",style: TextStyle(),),
                     
                     ),
           ]),
@@ -94,7 +87,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   Widget _loginFormWidget(double height, double w) {
     return Container(
-        height: height * 0.25,
+        height: height * 0.2,
         child: Form(
           key: _loginFormKey,
           child: Column(
@@ -103,8 +96,6 @@ class _ChangePasswordState extends State<ChangePassword> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _emailTextfield(w),
-              SizedBox(height: height*0.03,),
-              _passwordTextfield(w)
             ],
           ),
         ));
@@ -114,13 +105,13 @@ class _ChangePasswordState extends State<ChangePassword> {
     return Padding(
       padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04),
       child: TextFormField(
-        decoration:  InputDecoration(hintText: "Password",label:const Text("Password"),
+        decoration:  InputDecoration(hintText: "Email address",label:const Text("Email address"),
              floatingLabelStyle: TextStyle(color: ColorManager.primary),focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
                 20,
               ),
               borderSide: BorderSide(
-                color:Colours.pink,
+                color:ColorManager.primary,
               )),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
@@ -136,46 +127,12 @@ class _ChangePasswordState extends State<ChangePassword> {
           ),
         autofocus: true,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        controller: _passwordcontroller,
-        validator: passValidator,
+        controller: _emailcontroller,
+        validator: emailValidator,
       ),
     );
   }
-  Widget _passwordTextfield(double w) {
-    return Padding(
-      padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04),
-      child: TextFormField(
-        decoration:  InputDecoration(hintText: "Password",label:const Text("Confirm Password"),
-             floatingLabelStyle: TextStyle(color: ColorManager.primary),focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                20,
-              ),
-              borderSide: BorderSide(
-                color:Colours.pink,
-              )),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                20,
-              ),
-              borderSide: const BorderSide(
-                color: Colors.white,
-              )),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-          fillColor: Colors.grey.shade100,
-          filled: true,
-          
-          ),
-        autofocus: true,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        controller: _confirmpasswordcontroller,
-        validator: (val) {
-            if (val!.isEmpty) return 'password is requried';
-            if (val != _passwordcontroller.text) return '"Both should match';
-            return null;
-          }
-      ),
-    );
-  }
+
   Widget _sendlink(double height, double width) {
     return Center(
       child: Container(
@@ -185,20 +142,25 @@ class _ChangePasswordState extends State<ChangePassword> {
                 backgroundColor: MaterialStateProperty.all(ColorManager.primary)),
             child: Text("Rest PassWord", style: TextStyle(color: Colors.white)),
             onPressed: () async {
-              if (_loginFormKey.currentState!.validate()) {
-          final user = await _auth.chnagePassword(_confirmpasswordcontroller.text.toString());
-
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("passwors is change")));
-              Navigator.push(
+              try {
+                await FirebaseAuth.instance.sendPasswordResetEmail(
+                    email: _emailcontroller.text.toString());
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Password Reset Email Sent"),
+                ));
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ChangePassword()),
+                  MaterialPageRoute(builder: (context) => const loginscreen()),
                 );
-         
-        }
+              } on FirebaseAuthException catch (e) {
+                if (e.code == 'user-not-found') {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("No user found for that email"),
+                  ));
+                }
+              } catch (e) {}
             }),
       ),
     );
   }
 }
-
-  

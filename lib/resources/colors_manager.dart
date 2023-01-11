@@ -8,6 +8,13 @@ class ColorManager {
   static Color lightgreen =HexColor.fromHex("#E5EDE7");
   static Color white =HexColor.fromHex("#FFFFFF");
   static Color grey =HexColor.fromHex("#B4B4B4");
+  static Color lightblack =HexColor.fromHex("#333333");
+  static Color cardcolour =HexColor.fromHex("#CAE7EB");
+  static Color circleavtarcolour =HexColor.fromHex("#70A1A8");
+   static Color lightgrey =HexColor.fromHex(" #E5E4D7");
+ 
+
+  
   
 }
 

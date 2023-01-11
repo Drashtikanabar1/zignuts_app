@@ -1,28 +1,32 @@
 import 'package:colours/colours.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firstapp/loginscreen.dart';
+import 'package:firstapp/Authentication/auth_database.dart';
+
+import 'package:firstapp/login_signup/loginscreen.dart';
+
 import 'package:firstapp/resources/colors_manager.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:get/get_navigation/src/routes/default_transitions.dart';
-
-class ResetPage extends StatefulWidget {
-  const ResetPage({super.key});
-
+class ChangePassword extends StatefulWidget {
+  const ChangePassword({super.key});
+  
   @override
-  State<ResetPage> createState() => _ResetPageState();
+  State<ChangePassword> createState() => _ChangePasswordState();
 }
 
-class _ResetPageState extends State<ResetPage> {
+class _ChangePasswordState extends State<ChangePassword> {
+  final Auth _auth = Auth();
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   TextEditingController _emailcontroller = TextEditingController();
-  final emailValidator = MultiValidator([
-    RequiredValidator(errorText: 'email is requried'),
+    TextEditingController _passwordcontroller = TextEditingController();
+  TextEditingController _confirmpasswordcontroller = TextEditingController();
+  final passValidator = MultiValidator([
+    RequiredValidator(errorText: 'password is requried'),
     PatternValidator(
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
-        errorText: "please enter vaild email")
+        errorText: "please enter vaild password")
   ]);
 
   @override
@@ -44,9 +48,12 @@ class _ResetPageState extends State<ResetPage> {
             children: [
               Align(alignment: Alignment.centerLeft, child: _titleWidget(h, w)),
               SizedBox(
-                height: h * 0.015,
+                height: h * 0.05,
               ),
               _loginFormWidget(h, w),
+               SizedBox(
+                height: h * 0.05,
+              ),
               _sendlink(h, w),
             ],
           ),
@@ -67,7 +74,7 @@ class _ResetPageState extends State<ResetPage> {
               padding: EdgeInsets.only(left: w * 0.04),
               child: RichText(
                 text: const TextSpan(
-                    text: "Reset Password",
+                    text: "Create new Password",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 25,
@@ -77,8 +84,8 @@ class _ResetPageState extends State<ResetPage> {
             ),
             Container(
                 padding: EdgeInsets.only(left: w * 0.04, top: h * 0.02),
-                child: Text(
-                    "Enter the email associted with your account and we'll send an email with instruction to reset your password",style: TextStyle(),),
+                child: const Text(
+                    "Your new password must be differnt from pervious used passwords",),
                     
                     ),
           ]),
@@ -87,7 +94,7 @@ class _ResetPageState extends State<ResetPage> {
 
   Widget _loginFormWidget(double height, double w) {
     return Container(
-        height: height * 0.2,
+        height: height * 0.25,
         child: Form(
           key: _loginFormKey,
           child: Column(
@@ -96,6 +103,8 @@ class _ResetPageState extends State<ResetPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _emailTextfield(w),
+              SizedBox(height: height*0.03,),
+              _passwordTextfield(w)
             ],
           ),
         ));
@@ -105,13 +114,13 @@ class _ResetPageState extends State<ResetPage> {
     return Padding(
       padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04),
       child: TextFormField(
-        decoration:  InputDecoration(hintText: "Email address",label:const Text("Email address"),
+        decoration:  InputDecoration(hintText: "Password",label:const Text("Password"),
              floatingLabelStyle: TextStyle(color: ColorManager.primary),focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
                 20,
               ),
               borderSide: BorderSide(
-                color:ColorManager.primary,
+                color:Colours.pink,
               )),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
@@ -127,12 +136,46 @@ class _ResetPageState extends State<ResetPage> {
           ),
         autofocus: true,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        controller: _emailcontroller,
-        validator: emailValidator,
+        controller: _passwordcontroller,
+        validator: passValidator,
       ),
     );
   }
-
+  Widget _passwordTextfield(double w) {
+    return Padding(
+      padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04),
+      child: TextFormField(
+        decoration:  InputDecoration(hintText: "Password",label:const Text("Confirm Password"),
+             floatingLabelStyle: TextStyle(color: ColorManager.primary),focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(
+                20,
+              ),
+              borderSide: BorderSide(
+                color:Colours.pink,
+              )),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(
+                20,
+              ),
+              borderSide: const BorderSide(
+                color: Colors.white,
+              )),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+          fillColor: Colors.grey.shade100,
+          filled: true,
+          
+          ),
+        autofocus: true,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        controller: _confirmpasswordcontroller,
+        validator: (val) {
+            if (val!.isEmpty) return 'password is requried';
+            if (val != _passwordcontroller.text) return '"Both should match';
+            return null;
+          }
+      ),
+    );
+  }
   Widget _sendlink(double height, double width) {
     return Center(
       child: Container(
@@ -142,25 +185,20 @@ class _ResetPageState extends State<ResetPage> {
                 backgroundColor: MaterialStateProperty.all(ColorManager.primary)),
             child: Text("Rest PassWord", style: TextStyle(color: Colors.white)),
             onPressed: () async {
-              try {
-                await FirebaseAuth.instance.sendPasswordResetEmail(
-                    email: _emailcontroller.text.toString());
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Password Reset Email Sent"),
-                ));
-                Navigator.push(
+              if (_loginFormKey.currentState!.validate()) {
+          final user = await _auth.chnagePassword(_confirmpasswordcontroller.text.toString());
+
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("passwors is change")));
+              Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const loginscreen()),
+                  MaterialPageRoute(builder: (context) => const ChangePassword()),
                 );
-              } on FirebaseAuthException catch (e) {
-                if (e.code == 'user-not-found') {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text("No user found for that email"),
-                  ));
-                }
-              } catch (e) {}
+         
+        }
             }),
       ),
     );
   }
 }
+
+  

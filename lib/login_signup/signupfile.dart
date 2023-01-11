@@ -1,10 +1,10 @@
 import 'package:colours/colours.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firstapp/dashboard.dart';
+import 'package:firstapp/Pages/Dashboard_pages/dashboard.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
-import 'package:firstapp/email.dart';
+import 'package:firstapp/login_signup/email.dart';
 
-import 'package:firstapp/loginscreen.dart';
+import 'package:firstapp/login_signup/loginscreen.dart';
 import 'package:firstapp/resources/colors_manager.dart';
 import 'package:firstapp/resources/statics_manager.dart';
 

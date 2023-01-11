@@ -4,7 +4,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
-import 'package:firstapp/loginscreen.dart';
+import 'package:firstapp/login_signup/loginscreen.dart';
 import 'package:flutter/material.dart';
 
 

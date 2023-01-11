@@ -1,6 +1,8 @@
 
 import 'package:firstapp/Authentication/goole_sign_in.dart';
 import 'package:firstapp/Pages/Dashboard_pages/categories.dart';
+import 'package:firstapp/Pages/Dashboard_pages/loylticard/card.dart';
+import 'package:firstapp/Pages/Dashboard_pages/loylticard/newcard.dart';
 import 'package:firstapp/dashboard.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
 import 'package:firstapp/change_password.dart';
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
       
         primarySwatch: Colors.blue,
       ),
-       initialRoute: 'home',
+       initialRoute: 'card',
       routes: {
         'splash': (context) => splashscreen(),
         'register': (context) => signuppage(),
@@ -40,7 +42,8 @@ class MyApp extends StatelessWidget {
         'home':(context) => HomePage(),
         'changepassword':(context)=>ChangePassword(),
         'categories':(context) => Categories(),
-       
+        'newcard':(context) => Newloylticard(),
+        'card':(context) => Cardgridview(),
         
       },
     )

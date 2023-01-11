@@ -1,5 +1,7 @@
+import 'dart:ui';
+
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:firstapp/Pages/Dashboard_pages/ads.dart';
+
 import 'package:firstapp/resources/assets_manager.dart';
 import 'package:firstapp/resources/colors_manager.dart';
 import 'package:firstapp/resources/statics_manager.dart';
@@ -32,6 +34,10 @@ class _CategoriesState extends State<Categories> {
   ];
   List<String> images = [
     ImageAssets.drink,
+    ImageAssets.fruits,
+     ImageAssets.drink,
+    ImageAssets.fruits,
+     ImageAssets.drink,
     ImageAssets.fruits,
   ];
   @override
@@ -71,7 +77,8 @@ class _CategoriesState extends State<Categories> {
               _appbarview(h, w),
               _dropdown(h, w),
               
-              SingleChildScrollView(child: _listWidget(h, w)),
+              islistview?_listWidget(h, w):
+              SingleChildScrollView(child: _gridview(h,w)),
               //_imageview(h, w)
             ],
           ),
@@ -356,14 +363,17 @@ class _CategoriesState extends State<Categories> {
   }
   Widget _ads(){
     return Container(
-      height: 175,
+      height: 185,
       width: 375,
       child: CarouselSlider.builder(
+
         itemCount: images.length,
-        options: CarouselOptions(height: 400.0),
+        options: CarouselOptions(viewportFraction: 1,autoPlay: true),
       itemBuilder:(BuildContext context, int itemIndex, int pageViewIndex) =>
+    
        Container(
-       child: Image.asset(images[itemIndex])
+        width: 392.72,
+       child: Image.asset(images[itemIndex],fit: BoxFit.cover,)
        ),
     ),
 );
@@ -371,93 +381,143 @@ class _CategoriesState extends State<Categories> {
   }
   
 
-  Widget _gridview(double h,double w){
+  Widget _gridview(double h, double w) {
     return Container(
     
-      width: w,
+      width: 392,
       child: ListView.builder(
-        controller: _controller,
-        shrinkWrap: true,
-        itemCount: categorieslist.length,
-        
-        
-        scrollDirection: Axis.vertical,
-        itemBuilder: (context, index) {
-          if(index == 4){
-           return _ads();
-          }else return
-           Container(
-          
-          child: Padding(
-            padding:  EdgeInsets.only(top:w*0.02),
-            child: _customgirdimage(categorieslist[index]),
-          ),
-        );
-        }
-        
-       
-      ),
+          controller: _controller,
+          shrinkWrap: true,
+          itemCount: categorieslist.length,
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, index) {
+            if (index == 4) {
+              return _ads();
+            } else
+              return Container(
+                child: Padding(
+                  padding: EdgeInsets.only(top: h * 0.02),
+                  child: Column(children: [
+                    _customgirdimage(categorieslist[index]),
+
+                    _gridimageview(),
+                  ]),
+                ),
+              );
+          }),
     );
   }
-
-   Widget _customgirdimage(
+   
+Widget _customgirdimage(
     String name,
-    ) {
-    return Container(
-     
-     
-      child: Row(
-        children: [
-          Row(
+  ) {
+    return
+        Container(
+          height: 25,
+          width:400,
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        10,
-                      ),
-                    ),
-                  ),
-                  width: 50,
-                  height: 50,
-                  
-                  ),
-                
-                Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Text(name),
-                )
-              ]),
               Row(
-                children: const [
-                  Icon(Icons.discount_outlined),
-                  SizedBox(
-                    height: 18.33,
-                    width: 18.33,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 20),
-                    child: Icon(Icons.favorite_border_outlined),
+                children: [ 
+                
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Container(width: 280, child: Text(name,style: TextStyle(color: ColorManager.green,fontWeight: FontWeight.bold),)),
+                    ),
+               
+                  Row(
+                    children:  [
+                       Icon(Icons.discount,color: ColorManager.green,),
+                     const   SizedBox(
+                        height: 18.33,
+                        width: 18.33,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: Icon(Icons.favorite,color: ColorManager.green,),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ],
           ),
-          Container(
+        );
+  }
+  Widget _gridimageview(
 
-          ),
-        ],
+   
+  ){
+    return Container(
+      height:125,
       
+      width: 392,
+      padding: EdgeInsets.only(top: 3,bottom: 8),
+        child: GridView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount:images .length,
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+              
+                crossAxisSpacing: 5,
+                ),
+            itemBuilder: (context, index) {
+              return GridTile(
+                  child: Container(
+                    
+                     
+                      alignment: Alignment.center,
+                      child: _gridimage(categorieslist[index],images[index]),));
+            },
+          ),
+        );
+    
+  }
+   Widget _gridimage(
+    String name,
+    String image,
+  ) {
+    return Container(
+     
+      height: 120,
+      width: 80,
+      child: Column(
+        children: [
+          Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(
+                    10,
+                  ),
+                ),
+              ),
+              width:80,
+              height: 80,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(
+                 Radius.circular(10)
+                ),
+                child: Image.asset(
+                  image,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          Center(
+            child: Padding(
+              padding: EdgeInsets.only(left: 10,top: 3),
+              child: Container(
+               
+               
+               child :Text(name,style: TextStyle(fontSize: 12),),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
-
-  Widget _gridimageview(){
-    return Container(
-       
-    );
-  }
 }
+
 

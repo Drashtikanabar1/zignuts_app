@@ -1,11 +1,9 @@
 import 'dart:async';
 
 
-import 'package:firstapp/loginscreen.dart';
+import 'package:firstapp/login_signup/loginscreen.dart';
 import 'package:firstapp/resources/assets_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class splashscreen extends StatefulWidget {
   const splashscreen({super.key});
@@ -17,13 +15,14 @@ class splashscreen extends StatefulWidget {
 class _splashscreenState extends State<splashscreen> {
    
   
-   void initState() {
+   @override
+     void initState() {
     super.initState();
-    Timer(Duration(seconds: 3),
+    Timer(const Duration(seconds: 3),
           ()=>Navigator.pushReplacement(context,
                                         MaterialPageRoute(builder:
                                                           (context) => 
-                                                          loginscreen()
+                                                          const loginscreen()
                                                          )
                                        )
          );
@@ -31,6 +30,7 @@ class _splashscreenState extends State<splashscreen> {
   @override
   Widget build(BuildContext context) {
     final height =MediaQuery.of(context).size.height;
+    // ignore: unused_local_variable
     final width =MediaQuery.of(context).size.width;
     return Scaffold(
      body: Center(
