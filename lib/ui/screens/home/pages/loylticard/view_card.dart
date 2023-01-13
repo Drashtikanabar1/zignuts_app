@@ -1,8 +1,12 @@
 
 
+import 'dart:collection';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:firstapp/Pages/Dashboard_pages/loylticard/card_description.dart';
-import 'package:firstapp/Pages/Dashboard_pages/loylticard/newcard.dart';
+import 'package:firstapp/Authentication/auth_database.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/card_description.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/new_card.dart';
 import 'package:firstapp/resources/colors_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -17,7 +21,15 @@ class Cardgridview extends StatefulWidget {
 }
 
 class _CardgridviewState extends State<Cardgridview> {
-  List list = ["House of Fraser", "Nactor",];
+ final Auth  _auth = Auth();
+  FirebaseFirestore _firebaseFirestore =FirebaseFirestore.instance;
+  Stream<DocumentSnapshot<Map<String, dynamic>>> LoyaltyCardsDisplay() {
+    return _firebaseFirestore
+        .collection("loylticrad")
+        .doc(_auth.getUser()?.uid)
+        .snapshots();
+  }
+  List list=["vender","drashti"];
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -59,9 +71,16 @@ class _CardgridviewState extends State<Cardgridview> {
   }
 
   Widget _cardgridview(h,w) {
-    return  Padding(
-      padding:  EdgeInsets.only(left: 8,right: 20),
-      child: Container( 
+    // return  Padding(
+    //   padding:  EdgeInsets.only(left: 8,right: 20),
+    //    child: StreamBuilder(
+        
+    //   stream:LoyaltyCardsDisplay(),
+    //   builder: (context, snapshot) {
+    //     if (snapshot.hasData) {
+    //       List _posts = snapshot.data!.get("loylticrad");
+    //        return  
+      return Container( 
            
             height: h,
             child: GridView.builder(
@@ -69,6 +88,7 @@ class _CardgridviewState extends State<Cardgridview> {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0,),
               itemBuilder: (BuildContext context, int index) {
+          
                 if(index == list.length){
                    return _emptycard();
                 } 
@@ -76,8 +96,9 @@ class _CardgridviewState extends State<Cardgridview> {
                
               },
             ),
-          ),
-    );
+      );
+      
+ 
       
     
   }

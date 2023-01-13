@@ -1,24 +1,28 @@
 import 'package:colours/colours.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firstapp/Pages/Dashboard_pages/dashboard.dart';
+import 'package:firstapp/coman_widget/buildinputdesign.dart';
+import 'package:firstapp/ui/screens/home/pages/dashboard/dashboard.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
-import 'package:firstapp/login_signup/email.dart';
 
-import 'package:firstapp/login_signup/loginscreen.dart';
+
+
 import 'package:firstapp/resources/colors_manager.dart';
 import 'package:firstapp/resources/statics_manager.dart';
 
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-class signuppage extends StatefulWidget {
-  const signuppage({super.key});
+import '../login/login_screen.dart';
+
+
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<signuppage> createState() => _signuppageState();
+  State<RegisterScreen> createState() => _signuppageState();
 }
 
-class _signuppageState extends State<signuppage> {
+class _signuppageState extends State<RegisterScreen> {
   final Auth _auth = Auth();
   final emailValidator = MultiValidator([
     RequiredValidator(errorText: StringManager.emailrequried),
@@ -124,10 +128,10 @@ class _signuppageState extends State<signuppage> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              email(hintext:StringManager.usernamelhintext, label:StringManager.usernamelable, controller: _usercontroller,validate: usernameValidator,),
-              email(hintext:StringManager.emaillhintext, label:StringManager.emaillable, controller: _emailcontroller,validate: emailValidator,),
-              email(hintext:StringManager.passwordlable, label:StringManager.passwordlable, controller: _passwordcontroller,validate: passValidator,),
-              email(hintext:StringManager.confirmpassewordhintext, label:StringManager.confirmpasswordlable, controller: _confirmpasswordcontroller,validate:(val) {
+              BuildInputBox(hintext:StringManager.usernamelhintext, label:StringManager.usernamelable, controller: _usercontroller,validate: usernameValidator,),
+              BuildInputBox(hintext:StringManager.emaillhintext, label:StringManager.emaillable, controller: _emailcontroller,validate: emailValidator,),
+              BuildInputBox(hintext:StringManager.passwordlable, label:StringManager.passwordlable, controller: _passwordcontroller,validate: passValidator,),
+              BuildInputBox(hintext:StringManager.confirmpassewordhintext, label:StringManager.confirmpasswordlable, controller: _confirmpasswordcontroller,validate:(val) {
                if (val!.isEmpty) return StringManager.confirmpasswordrequried;
               if (val != _passwordcontroller.text) return StringManager.confirmpasswordvalid;
             return null;
@@ -191,7 +195,7 @@ class _signuppageState extends State<signuppage> {
           child: GestureDetector(
             onTap: () => Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const loginscreen()),
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
             ),
             child: RichText(
               text:  TextSpan(

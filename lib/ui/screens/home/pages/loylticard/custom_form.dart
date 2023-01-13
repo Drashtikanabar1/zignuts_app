@@ -7,13 +7,13 @@ class CustomFormField extends StatefulWidget {
   
   final String hintext;
   final String label;
-   
+  final  TextEditingController controller;
   final String? Function(String?)? validate;
   
  
   
 
-   CustomFormField({super.key,  required this.hintext, required this.label,this.validate, });
+   CustomFormField({super.key,  required this.hintext, required this.label,this.validate, required this.controller, });
   
 
   @override
@@ -27,13 +27,13 @@ class _emailState extends State<CustomFormField> {
     final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return Container(
+    return SizedBox(
       
       width: width * 0.9,
       height:50,
       child: TextFormField(
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        
+        controller: widget.controller,
         autofocus: true,
         decoration: InputDecoration(
           label: Text(widget.label),

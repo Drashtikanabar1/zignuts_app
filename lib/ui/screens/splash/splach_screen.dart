@@ -1,18 +1,18 @@
 import 'dart:async';
 
 
-import 'package:firstapp/login_signup/loginscreen.dart';
 import 'package:firstapp/resources/assets_manager.dart';
+import 'package:firstapp/ui/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
-class splashscreen extends StatefulWidget {
-  const splashscreen({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  State<splashscreen> createState() => _splashscreenState();
+  State<SplashScreen> createState() => _splashscreenState();
 }
 
-class _splashscreenState extends State<splashscreen> {
+class _splashscreenState extends State<SplashScreen> {
    
   
    @override
@@ -22,7 +22,7 @@ class _splashscreenState extends State<splashscreen> {
           ()=>Navigator.pushReplacement(context,
                                         MaterialPageRoute(builder:
                                                           (context) => 
-                                                          const loginscreen()
+                                                          const LoginScreen()
                                                          )
                                        )
          );

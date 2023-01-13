@@ -1,9 +1,8 @@
 import 'package:firstapp/resources/colors_manager.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter/material.dart';
 
-class email extends StatefulWidget {
+class BuildInputBox extends StatefulWidget {
   
   final String hintext;
   final String label;
@@ -13,19 +12,19 @@ class email extends StatefulWidget {
  
   
 
-   email({super.key,  required this.hintext, required this.label, required this.controller, this.validate, });
+   const BuildInputBox({super.key,  required this.hintext, required this.label, required this.controller, this.validate, });
   
 
   @override
-  State<email> createState() => _emailState();
+  State<BuildInputBox> createState() => BuildInputBoxState();
 }
 
-class _emailState extends State<email> {
+class BuildInputBoxState extends State<BuildInputBox> {
   
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
-    final height = MediaQuery.of(context).size.height;
+  
+ 
     final width = MediaQuery.of(context).size.width;
     return Container(
       decoration: BoxDecoration(boxShadow: [

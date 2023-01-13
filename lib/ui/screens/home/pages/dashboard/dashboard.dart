@@ -2,10 +2,10 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
-import 'package:firstapp/Pages/Dashboard_pages/categories.dart';
+import 'package:firstapp/ui/screens/home/pages/categories/categories_screen.dart';
 
-import 'package:firstapp/change_password.dart';
-import 'package:firstapp/dilogbox.dart';
+import 'package:firstapp/ui/screens/home/pages/dashboard/change_password.dart';
+import 'package:firstapp/ui/dialogs/dilogbox.dart';
 import 'package:firstapp/resources/colors_manager.dart';
 import 'package:firstapp/resources/statics_manager.dart';
 import 'package:flutter/material.dart';

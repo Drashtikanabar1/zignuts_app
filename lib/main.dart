@@ -1,14 +1,16 @@
 
 import 'package:firstapp/Authentication/goole_sign_in.dart';
-import 'package:firstapp/Pages/Dashboard_pages/categories.dart';
-import 'package:firstapp/Pages/Dashboard_pages/loylticard/card.dart';
-import 'package:firstapp/Pages/Dashboard_pages/loylticard/newcard.dart';
-import 'package:firstapp/dashboard.dart';
+import 'package:firstapp/ui/screens/home/pages/categories/categories_screen.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/view_card.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/new_card.dart';
+import 'package:firstapp/ui/screens/home/pages/dashboard/dashboard.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
-import 'package:firstapp/change_password.dart';
-import 'package:firstapp/loginscreen.dart';
-import 'package:firstapp/signupfile.dart';
-import 'package:firstapp/splachscreen.dart';
+import 'package:firstapp/ui/screens/home/pages/dashboard/change_password.dart';
+import 'package:firstapp/ui/screens/login/login_screen.dart';
+
+
+import 'package:firstapp/ui/screens/signup/signup_screen.dart';
+import 'package:firstapp/ui/screens/splash/splach_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -36,9 +38,9 @@ class MyApp extends StatelessWidget {
       ),
        initialRoute: 'card',
       routes: {
-        'splash': (context) => splashscreen(),
-        'register': (context) => signuppage(),
-        'login': (context) => loginscreen(),
+        'splash': (context) => SplashScreen(),
+        'register': (context) => RegisterScreen(),
+        'login': (context) => LoginScreen(),
         'home':(context) => HomePage(),
         'changepassword':(context)=>ChangePassword(),
         'categories':(context) => Categories(),

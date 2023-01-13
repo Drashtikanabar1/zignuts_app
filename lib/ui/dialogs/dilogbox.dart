@@ -4,7 +4,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
-import 'package:firstapp/login_signup/loginscreen.dart';
+import 'package:firstapp/ui/screens/login/login_screen.dart';
+
 import 'package:flutter/material.dart';
 
 
@@ -26,7 +27,7 @@ class Dilogbox{
                      await _auth.sigOut();
                    }
                    
-                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: ((context) => loginscreen())), (route) => false);
+                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: ((context) => LoginScreen())), (route) => false);
               
                 },
                 child: Text('yes'),

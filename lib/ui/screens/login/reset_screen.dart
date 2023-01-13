@@ -1,21 +1,24 @@
 import 'package:colours/colours.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firstapp/login_signup/loginscreen.dart';
+import 'package:firstapp/coman_widget/buildinputdesign.dart';
+
+
 import 'package:firstapp/resources/colors_manager.dart';
+import 'package:firstapp/ui/screens/login/login_screen.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get_navigation/src/routes/default_transitions.dart';
 
-class ResetPage extends StatefulWidget {
-  const ResetPage({super.key});
+class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({super.key});
 
   @override
-  State<ResetPage> createState() => _ResetPageState();
+  State<ResetPasswordScreen> createState() => _ResetPageState();
 }
 
-class _ResetPageState extends State<ResetPage> {
+class _ResetPageState extends State<ResetPasswordScreen> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   TextEditingController _emailcontroller = TextEditingController();
   final emailValidator = MultiValidator([
@@ -95,42 +98,11 @@ class _ResetPageState extends State<ResetPage> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _emailTextfield(w),
+              BuildInputBox(hintext: "Email", label: "Email address", controller: _emailcontroller)
+
             ],
           ),
         ));
-  }
-
-  Widget _emailTextfield(double w) {
-    return Padding(
-      padding: EdgeInsets.only(left: w * 0.04, right: w * 0.04),
-      child: TextFormField(
-        decoration:  InputDecoration(hintText: "Email address",label:const Text("Email address"),
-             floatingLabelStyle: TextStyle(color: ColorManager.primary),focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                20,
-              ),
-              borderSide: BorderSide(
-                color:ColorManager.primary,
-              )),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                20,
-              ),
-              borderSide: const BorderSide(
-                color: Colors.white,
-              )),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-          fillColor: Colors.grey.shade100,
-          filled: true,
-          
-          ),
-        autofocus: true,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        controller: _emailcontroller,
-        validator: emailValidator,
-      ),
-    );
   }
 
   Widget _sendlink(double height, double width) {
@@ -150,7 +122,7 @@ class _ResetPageState extends State<ResetPage> {
                 ));
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const loginscreen()),
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
                 );
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {

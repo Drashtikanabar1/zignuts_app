@@ -1,28 +1,31 @@
 import 'package:colours/colours.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firstapp/dashboard.dart';
+import 'package:firstapp/coman_widget/buildinputdesign.dart';
+import 'package:firstapp/ui/screens/home/pages/dashboard/dashboard.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
-import 'package:firstapp/email.dart';
-import 'package:firstapp/reset.dart';
+
+import 'package:firstapp/ui/screens/login/reset_screen.dart';
 import 'package:firstapp/resources/colors_manager.dart';
 
-import 'package:firstapp/signupfile.dart';
+import 'package:firstapp/ui/screens/signup/signup_screen.dart';
 // ignore: unnecessary_import
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
+
+
 // ignore: camel_case_types
-class loginscreen extends StatefulWidget {
-  const loginscreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<loginscreen> createState() => _loginscreenState();
+  State<LoginScreen> createState() => _loginscreenState();
 }
 
 // ignore: camel_case_types
-class _loginscreenState extends State<loginscreen> {
+class _loginscreenState extends State<LoginScreen> {
   final Auth _auth = Auth();
   TextEditingController _emailcontroller = TextEditingController();
   TextEditingController _passwordcontroller = TextEditingController();
@@ -138,9 +141,9 @@ class _loginscreenState extends State<loginscreen> {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          email(hintext: "email", label: "Email", controller:_emailcontroller,validate: emailValidator),
+          BuildInputBox(hintext: "email", label: "Email", controller:_emailcontroller,validate: emailValidator),
            SizedBox(height: height*0.03,),
-          email(hintext: "password", label: "password", controller: _passwordcontroller,validate :passValidator)
+          BuildInputBox(hintext: "password", label: "password", controller: _passwordcontroller,validate :passValidator)
         ],
       ),
     ));
@@ -159,6 +162,7 @@ class _loginscreenState extends State<loginscreen> {
                   _passwordcontroller.text.toString())
               .whenComplete(() => print("login sucessfully"));
           if (user != null) {
+            
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const HomePage()),
@@ -196,7 +200,7 @@ class _loginscreenState extends State<loginscreen> {
               style: TextStyle(color: Colors.grey.shade700)),
           onPressed: () {{} Navigator.of(context).push(
             
-              MaterialPageRoute(builder: (context) => ResetPage()),
+              MaterialPageRoute(builder: (context) => ResetPasswordScreen()),
             );}),
     );
   }
@@ -221,7 +225,7 @@ class _loginscreenState extends State<loginscreen> {
             child: GestureDetector(
               onTap: () => Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const signuppage()),
+                MaterialPageRoute(builder: (context) => const RegisterScreen()),
               ),
               child: RichText(
                 text:  TextSpan(
