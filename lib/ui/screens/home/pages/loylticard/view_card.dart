@@ -1,17 +1,11 @@
-
-
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
+import 'package:firstapp/model/loylti_card.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/card_description.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/new_card.dart';
 import 'package:firstapp/resources/colors_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class Cardgridview extends StatefulWidget {
   const Cardgridview({super.key});
@@ -21,15 +15,8 @@ class Cardgridview extends StatefulWidget {
 }
 
 class _CardgridviewState extends State<Cardgridview> {
- final Auth  _auth = Auth();
-  FirebaseFirestore _firebaseFirestore =FirebaseFirestore.instance;
-  Stream<DocumentSnapshot<Map<String, dynamic>>> LoyaltyCardsDisplay() {
-    return _firebaseFirestore
-        .collection("loylticrad")
-        .doc(_auth.getUser()?.uid)
-        .snapshots();
-  }
-  List list=["vender","drashti"];
+  final Auth _auth = Auth();
+
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
@@ -38,7 +25,7 @@ class _CardgridviewState extends State<Cardgridview> {
       appBar: AppBar(
         leading: Padding(
           padding: EdgeInsets.only(left: w * 0.02),
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back,
           ),
         ),
@@ -64,60 +51,73 @@ class _CardgridviewState extends State<Cardgridview> {
       body: SingleChildScrollView(
           child: Column(
         children: [
-          _cardgridview(h,w),
+          _cardgridview(h, w),
         ],
       )),
     );
   }
 
-  Widget _cardgridview(h,w) {
-    // return  Padding(
-    //   padding:  EdgeInsets.only(left: 8,right: 20),
-    //    child: StreamBuilder(
-        
-    //   stream:LoyaltyCardsDisplay(),
-    //   builder: (context, snapshot) {
-    //     if (snapshot.hasData) {
-    //       List _posts = snapshot.data!.get("loylticrad");
-    //        return  
-      return Container( 
-           
-            height: h,
-            child: GridView.builder(
-              itemCount: list.length + 1,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0,),
-              itemBuilder: (BuildContext context, int index) {
-          
-                if(index == list.length){
-                   return _emptycard();
-                } 
-                return _customcard( list[index],context);
-               
-              },
-            ),
-      );
-      
- 
-      
-    
+  Widget _cardgridview(h, w) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, right: 20),
+      child: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection("loylticrad")
+              .doc(_auth.getUser()?.uid)
+              .collection("userloylticard")
+              .snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data!.docs.length == 0) {
+                return _emptycard();
+              } else {
+                return Container(
+                  height: h,
+                  child: GridView.builder(
+                    itemCount: snapshot.data!.docs.length + 1,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 4.0,
+                      mainAxisSpacing: 4.0,
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == snapshot.data!.docs.length) {
+                        return _emptycard();
+                      } else {
+                        DocumentSnapshot doc =
+                            snapshot.data!.docs.elementAt(index);
+                        doc.id;
+                        return _customcard(LoyltiCard(backCardUrl: doc["backcardurl"],cardName: doc["cardame"],frontCardUrl: doc["frontcardurl"],name: doc["name"],notes: doc["notes"],websiteUrl: doc["websiteurl"],id: doc.id));
+                      }
+                    },
+                  ),
+                );
+              }
+            } else {
+              return (_emptycard());
+            }
+          }),
+    );
   }
- 
+
   Widget _customcard(
-    String title,
-    context,
+  LoyltiCard loyltiCard,
   ) {
     return Stack(
       children: [
         Center(
           child: GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: ((context) => Detailscard(title: title))));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => Detailscard(title: loyltiCard.name!))));
             },
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 20, left: 20),
+                  padding: const EdgeInsets.only(top: 20, left: 20),
                   child: Container(
                     height: 110,
                     width: 180,
@@ -136,59 +136,89 @@ class _CardgridviewState extends State<Cardgridview> {
                           child: CircleAvatar(
                             radius: 30,
                             backgroundColor: ColorManager.circleavtarcolour,
-                            child: Text(title.substring(0, 1).toUpperCase()),
+                            child: Text(loyltiCard.name!.substring(0, 1).toUpperCase()),
                           ),
                         )),
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Text(title),
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(loyltiCard.name!),
                 )
               ],
             ),
           ),
         ),
         Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: EdgeInsets.only(top: 25),
-              child: Icon(
-                Icons.more_vert,
-              ),
-            ))
+          alignment: Alignment.topRight,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: PopupMenuButton(
+              onSelected: (value) {
+                // if value 1 show dialog
+                if (value == 1) {
+                  // final docuser = FirebaseFirestore.instance
+                  //     .collection("loylticrad")
+                  //     .doc(_auth.getUser()?.uid)
+                  //     .collection("userlolticard")
+                  //     .doc(loyltiCard.id)
+                  //     .update();
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Newloylticard(
+                        loyltiCard: loyltiCard ,
+                      ),));
+                  // if value 2 show dialog
+                } else if (value == 2) {
+                  final docUser = FirebaseFirestore.instance
+                      .collection("loylticrad")
+                      .doc(_auth.getUser()?.uid)
+                      .collection("userloylticard")
+                      .doc(loyltiCard.id)
+                      .delete();
+                }
+              },
+              itemBuilder: ((context) => [
+                    PopupMenuItem(
+                      value: 1,
+                      child: Text("Edit"),
+                    ),
+                    PopupMenuItem(value: 2, child: Text("Delete")),
+                  ]),
+            ),
+          ),
+        ),
       ],
     );
   }
-  Widget _emptycard(){
-    return  Center(
-          child: GestureDetector(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: ((context) => Newloylticard()),),);
-            },
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 22, left: 20),
-                  child: DottedBorder(
-                    color: ColorManager.grey, //color of dotted/dash line
-                  strokeWidth: 3, //thickness of dash/dots
-                  dashPattern: [3, 4],
-                    child: Container(
-                      height: 90,
-                      width: 180,
-                     child: Icon(Icons.add),
-                     
-                    
-                    
-                      
-                    ),
-                  ),
-                ),
-               
-              ],
+
+  Widget _emptycard() {
+    return Center(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((context) =>  Newloylticard()),
             ),
-          ),
-        );
+          );
+        },
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 22, left: 20),
+              child: DottedBorder(
+                color: ColorManager.grey, //color of dotted/dash line
+                strokeWidth: 3, //thickness of dash/dots
+                dashPattern: [3, 4],
+                child: Container(
+                  height: 90,
+                  width: 180,
+                  child: const Icon(Icons.add),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

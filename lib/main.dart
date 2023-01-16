@@ -30,13 +30,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) =>ChangeNotifierProvider(create :(context)=>GoogleSignInProvider(),
-    child: MaterialApp(
+    child: GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
       
         primarySwatch: Colors.blue,
       ),
-       initialRoute: 'card',
+       initialRoute: 'splash',
       routes: {
         'splash': (context) => SplashScreen(),
         'register': (context) => RegisterScreen(),

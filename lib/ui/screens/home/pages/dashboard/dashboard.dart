@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> {
       //         title: const Text('LogOut'),
       //         onTap: () async{
                 
-      //          showDialog(context: context, builder: ((context) => Dilogbox().dialog(context)));
+      //        showDialog(context: context, builder: ((context) => Dilogbox().dialog(context)));
       //         } ,
               
       //       )

@@ -2,8 +2,10 @@ import 'dart:async';
 
 
 import 'package:firstapp/resources/assets_manager.dart';
+import 'package:firstapp/resources/style_manager.dart';
 import 'package:firstapp/ui/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -29,16 +31,14 @@ class _splashscreenState extends State<SplashScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    final height =MediaQuery.of(context).size.height;
-    // ignore: unused_local_variable
-    final width =MediaQuery.of(context).size.width;
+  
     return Scaffold(
      body: Center(
       child:Column(
             children: <Widget>[
-              Padding(padding: EdgeInsets.only(top:height*0.400,),),
+              Padding(padding: EdgeInsets.only(top:Dimensions.splashpadding313,),),
               Image.asset(ImageAssets.splashLogo,
-                  height: height*0.2,
+                  height:Dimensions.splashlogo160,
                   scale: 2.5,
                   // color: Color.fromARGB(255, 15, 147, 59),
                   opacity:

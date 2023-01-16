@@ -42,7 +42,9 @@ class BuildInputBoxState extends State<BuildInputBox> {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         controller: widget.controller,
         autofocus: true,
+        
         decoration: InputDecoration(
+   
           label: Text(widget.label),
           floatingLabelStyle: TextStyle(color: ColorManager.primary),
           hintText: widget.hintext,

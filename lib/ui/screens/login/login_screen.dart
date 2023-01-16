@@ -2,6 +2,7 @@ import 'package:colours/colours.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/coman_widget/buildinputdesign.dart';
+import 'package:firstapp/resources/style_manager.dart';
 import 'package:firstapp/ui/screens/home/pages/dashboard/dashboard.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
 
@@ -179,7 +180,7 @@ class _loginscreenState extends State<LoginScreen> {
           showSpinner = false;
         });
       },
-      minWidth: width * 0.8,
+      minWidth: Dimensions.width314,
       height: height * 0.06,
       color: ColorManager.primary,
       child: const Text(
@@ -194,7 +195,7 @@ class _loginscreenState extends State<LoginScreen> {
 
   Widget _forgetpassword(double height, double width) {
     return Container(
-      padding: EdgeInsets.only(left: width * 0.4),
+      padding: EdgeInsets.only(left: Dimensions.width157),
       child: TextButton(
           child: Text("Forgot password?",
               style: TextStyle(color: Colors.grey.shade700)),
@@ -210,7 +211,7 @@ class _loginscreenState extends State<LoginScreen> {
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.only(left: width * 0.25),
+            padding: EdgeInsets.only(left: Dimensions.width98),
             child: RichText(
               text: const TextSpan(
                   text: "Don\'t Have account?" ,
@@ -221,7 +222,7 @@ class _loginscreenState extends State<LoginScreen> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(left: width*0.02),
+            padding: EdgeInsets.only(left:Dimensions.width8),
             child: GestureDetector(
               onTap: () => Navigator.pushReplacement(
                 context,

@@ -10,6 +10,7 @@ import 'package:firstapp/ui/screens/home/pages/loylticard/custom_form.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/select_photo_option.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firstapp/resources/assets_manager.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/view_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -20,7 +21,8 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../../resources/colors_manager.dart';
 
 class Newloylticard extends StatefulWidget {
-  const Newloylticard({super.key});
+  LoyltiCard? loyltiCard;
+   Newloylticard({super.key, this.loyltiCard});
 
   @override
   State<Newloylticard> createState() => _NewloylticardState();
@@ -35,10 +37,10 @@ class _NewloylticardState extends State<Newloylticard> {
   
    
    final TextEditingController _cardnocontroller = TextEditingController();
-  TextEditingController _cardnamecontroller = TextEditingController();
-   TextEditingController _websiteurlcontroller = TextEditingController();
-  TextEditingController _notescontroller = TextEditingController();
-  StorageService _storageService = StorageService();
+  final TextEditingController _cardnamecontroller = TextEditingController();
+   final TextEditingController _websiteurlcontroller = TextEditingController();
+  final TextEditingController _notescontroller = TextEditingController();
+  final StorageService _storageService = StorageService();
     final cardnoValidator = MultiValidator([
     RequiredValidator(errorText: "card no is required"),
    
@@ -78,15 +80,22 @@ class _NewloylticardState extends State<Newloylticard> {
           });
          
           final url=await _storageService.saveCardImages(_image!,_image1!);
-          await FirebaseFirestore.instance.collection('loylticrad').doc(_auth.getUser()?.uid).set({ "usercards" :FieldValue.arrayUnion([{ 'cardame' :_cardnamecontroller.text,
+         
+          await FirebaseFirestore.instance.collection('loylticrad').doc(_auth.getUser()?.uid).collection("userloylticard").doc().set(  { 
+              'cardame' :_cardnocontroller.text,
               'name' :_cardnamecontroller.text,
               'websiteurl':_websiteurlcontroller.text,
               'notes':_notescontroller.text,
               'frontcardurl':url[0],
-              'backcardurl':url[1],}])
+              'backcardurl':url[1],}
              
-          });
-          Navigator.canPop(context) ? Navigator.pop(context) : null;
+          );
+         Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Newloylticard()),
+            );
+         
+         
         } 
       } catch (error) {
        
@@ -152,7 +161,17 @@ class _NewloylticardState extends State<Newloylticard> {
           }),
     );
   }
-
+ @override
+  void initState() {
+     setState(() {
+      _cardnocontroller.text =widget.loyltiCard!.cardName!;
+       _cardnamecontroller.text=widget.loyltiCard!.name!;
+       _websiteurlcontroller.text=widget.loyltiCard!.websiteUrl!;
+       _notescontroller.text=widget.loyltiCard!.notes!;
+     });
+    // TODO: implement initState
+    super.initState();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -309,39 +328,46 @@ class _NewloylticardState extends State<Newloylticard> {
 
 
   Widget _formdetails() {
-    return Container(
-      child: Form(
-        key: _cardFormKey,
-        child: Column(children: [
-          CustomFormField(
-            hintext: "Card Number",
-            label: "Card Number",
-            controller: _cardnocontroller,
-            validate: cardnoValidator,
+    return Padding(
+      padding: EdgeInsets.only(left: 20,right: 20),
+      child: Column(
+        children: [
+          Container(
+            child: Form(
+              key: _cardFormKey,
+              child: Column(children: [
+                CustomFormField(
+                  hintext: "Card Number",
+                  label: "Card Number",
+                  controller: _cardnocontroller,
+                  validate: cardnoValidator,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                CustomFormField(
+                  hintext: "Program name",
+                  label: "Program name",
+                  controller: _cardnamecontroller,
+                  validate: nameValidator,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                CustomFormField(
+                  hintext: "Website url",
+                  label: "Website Url",
+                  controller: _websiteurlcontroller,
+                  validate: websiteurlValidator,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                _notes(),
+              ]),
+            ),
           ),
-          SizedBox(
-            height: 15,
-          ),
-          CustomFormField(
-            hintext: "Program name",
-            label: "Program name",
-            controller: _cardnamecontroller,
-            validate: nameValidator,
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          CustomFormField(
-            hintext: "Website url",
-            label: "Website Url",
-            controller: _websiteurlcontroller,
-            validate: websiteurlValidator,
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          _notes(),
-        ]),
+        ],
       ),
     );
   }
@@ -351,13 +377,12 @@ class _NewloylticardState extends State<Newloylticard> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Container(
-      width: width * 0.9,
-      height: 80,
+      
       child: TextFormField(
         controller: _notescontroller,
         validator: notesValidator,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        maxLines: 3,
+        maxLines: 2,
         autofocus: true,
         decoration: InputDecoration(
           label: Text("Notes"),

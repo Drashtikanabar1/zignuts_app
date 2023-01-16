@@ -29,8 +29,7 @@ class _emailState extends State<CustomFormField> {
     final width = MediaQuery.of(context).size.width;
     return SizedBox(
       
-      width: width * 0.9,
-      height:50,
+  
       child: TextFormField(
         autovalidateMode: AutovalidateMode.onUserInteraction,
         controller: widget.controller,
@@ -38,6 +37,7 @@ class _emailState extends State<CustomFormField> {
         decoration: InputDecoration(
           label: Text(widget.label),
           floatingLabelStyle: TextStyle(color: ColorManager.primary),
+          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
           hintText: widget.hintext,
           enabledBorder: OutlineInputBorder(
           
