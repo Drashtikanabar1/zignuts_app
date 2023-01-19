@@ -53,15 +53,14 @@ class UserPreferences{
     await prefs.setString(email, user.email!);
   }
 
-    static Future<Appuser> getLoginUserInfo(Appuser user) async {
+    static Future<Appuser> getLoginUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? uId = await prefs.getString(id);
     String? uName = await prefs.getString(name);
     String? uEmail = await prefs.getString(email);
-    Appuser user = Appuser();
-    user.id = uId;
-    user.name = uName;
-    user.email = uEmail;
+    Appuser user = Appuser(id:uId,name: uName,email:uEmail);
+   
+   
     return user;
   }
 }

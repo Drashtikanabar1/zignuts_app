@@ -1,5 +1,6 @@
 class LoyltiCard{
   String? id; 
+  String? vendor;
   String? cardName;
   String? name;
   String? websiteUrl;
@@ -8,6 +9,6 @@ class LoyltiCard{
   String? backCardUrl;
   
   
-  LoyltiCard({this.cardName,this.name,this.websiteUrl,this.notes,this.frontCardUrl,this.backCardUrl,this.id});
+  LoyltiCard({this.cardName,this.name,this.websiteUrl,this.notes,this.frontCardUrl,this.backCardUrl,this.id,this.vendor});
   
 }

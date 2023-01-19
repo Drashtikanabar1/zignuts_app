@@ -1,13 +1,11 @@
-import 'dart:ui';
-
 import 'package:carousel_slider/carousel_slider.dart';
-
 import 'package:firstapp/resources/assets_manager.dart';
 import 'package:firstapp/resources/colors_manager.dart';
 import 'package:firstapp/resources/statics_manager.dart';
+import 'package:firstapp/resources/style_manager.dart';
+import 'package:firstapp/ui/screens/home/pages/categories/custom_image.dart';
+import 'package:firstapp/ui/screens/home/pages/categories/gridview.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class Categories extends StatefulWidget {
   const Categories({super.key});
@@ -20,8 +18,7 @@ class _CategoriesState extends State<Categories> {
   bool isFavoriteCategory = true;
   bool islistview = true;
   late String _dropDownValue;
-  ScrollController _controller =ScrollController();
-
+  ScrollController _controller = ScrollController();
   var list = ["vendor 1", "vendor 2", "vendor 3", "vendor 4", "vendor 5"];
   List categorieslist = [
     "Home &kitchen",
@@ -35,56 +32,56 @@ class _CategoriesState extends State<Categories> {
   List<String> images = [
     ImageAssets.drink,
     ImageAssets.fruits,
-     ImageAssets.drink,
+    ImageAssets.drink,
     ImageAssets.fruits,
-     ImageAssets.drink,
+    ImageAssets.drink,
     ImageAssets.fruits,
   ];
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
-    return  Scaffold(
-        appBar: AppBar(
-          leading: Padding(
-            padding: EdgeInsets.only(left: w * 0.02),
-            child: Icon(
-              Icons.arrow_back,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        leading: Padding(
+          padding: EdgeInsets.only(left: Dimensions.width8),
+          child: Icon(
+            Icons.arrow_back,
           ),
-          leadingWidth: w * 0.07,
-          title: Text(
-            StringManager.categoriappbar,
-            style:
-                TextStyle(color: ColorManager.black, fontWeight: FontWeight.bold),
+        ),
+        leadingWidth: w * 0.07,
+        title: Text(
+          StringManager.categoriappbar,
+          style:
+              TextStyle(color: ColorManager.black, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: ColorManager.appbarColor,
+        foregroundColor: ColorManager.black,
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: w * 0.04),
+            child: Icon(Icons.search, color: ColorManager.black),
           ),
-          backgroundColor: ColorManager.appbarColor,
-          foregroundColor: ColorManager.black,
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(right: w * 0.04),
-              child: Icon(Icons.search, color: ColorManager.black),
-            ),
-            Padding(
-              padding: EdgeInsets.only(right: w * 0.05),
-              child: Icon(Icons.qr_code, color: ColorManager.black),
-            ),
+          Padding(
+            padding: EdgeInsets.only(right: w * 0.05),
+            child: Icon(Icons.qr_code, color: ColorManager.black),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _appbarview(h, w),
+            _dropdown(h, w),
+
+            islistview
+                ? _listWidget(h, w)
+                : SingleChildScrollView(child: Gridview()),
+            //_imageview(h, w)
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              _appbarview(h, w),
-              _dropdown(h, w),
-              
-              islistview?_listWidget(h, w):
-              SingleChildScrollView(child: _gridview(h,w)),
-              //_imageview(h, w)
-            ],
-          ),
-        ),
-      );
-    
+      ),
+    );
   }
 
   Widget _appbarview(h, w) {
@@ -261,263 +258,45 @@ class _CategoriesState extends State<Categories> {
 
   Widget _listWidget(double h, double w) {
     return Container(
-      
-      child: ListView.builder(
-        controller: _controller,
-        shrinkWrap: true,
-        itemCount: categorieslist.length,
-        
-        itemBuilder: (context, index) {
-          if(index == 4){
-           return _ads();
-          }else return
-           Container(
-          
-          child: Padding(
-            padding:  EdgeInsets.only(top:w*0.02),
-            child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                title: _customimage(
-                  categorieslist[index],
-                  ImageAssets.fruits,
-                )),
-          ),
-        );
-        }
-        
-       
-      ),
-    );
-  }
-
-  Widget _customimage(
-    String name,
-    String image,) {
-    return Container(
-      height: 50,
-      width: 200,
-      decoration: BoxDecoration(
-          color: ColorManager.white,
-          borderRadius:const  BorderRadius.all(
-            Radius.circular(
-              20,
-            ),
-          ),
-          boxShadow: [
-            BoxShadow(
-                blurRadius: 2,
-                color: ColorManager.grey,
-                offset: const Offset(
-                  1.0,
-                  1.0,
-                )),
-          ]),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(children: [
-            Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(
-                    10,
-                  ),
-                ),
-              ),
-              width: 50,
-              height: 50,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0),
-                ),
-                child: Image.asset(
-                  image,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: Text(name),
-            )
-          ]),
-          Row(
-            children: [
-              Icon(Icons.discount_outlined),
-              SizedBox(
-                height: 18.33,
-                width: 18.33,
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 20),
-                child: Icon(Icons.favorite_border_outlined),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-  Widget _ads(){
-    return Container(
-      height: 185,
-      width: 375,
-      child: CarouselSlider.builder(
-
-        itemCount: images.length,
-        options: CarouselOptions(viewportFraction: 1,autoPlay: true),
-      itemBuilder:(BuildContext context, int itemIndex, int pageViewIndex) =>
-    
-       Container(
-        width: 392.72,
-       child: Image.asset(images[itemIndex],fit: BoxFit.cover,)
-       ),
-    ),
-);
-    
-  }
-  
-
-  Widget _gridview(double h, double w) {
-    return Container(
-    
-      width: 392,
       child: ListView.builder(
           controller: _controller,
           shrinkWrap: true,
           itemCount: categorieslist.length,
-          scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
             if (index == 4) {
               return _ads();
-            } else
-              return Container(
-                child: Padding(
-                  padding: EdgeInsets.only(top: h * 0.02),
-                  child: Column(children: [
-                    _customgirdimage(categorieslist[index]),
-
-                    _gridimageview(),
-                  ]),
-                ),
+            } else {
+              return Padding(
+                padding: EdgeInsets.only(top: w * 0.02),
+                child: ListTile(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    title: CustomImage(
+                      name: categorieslist[index],
+                      image: ImageAssets.fruits,
+                    )),
               );
+            }
           }),
     );
   }
-   
-Widget _customgirdimage(
-    String name,
-  ) {
-    return
-        Container(
-          height: 25,
-          width:400,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [ 
-                
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Container(width: 280, child: Text(name,style: TextStyle(color: ColorManager.green,fontWeight: FontWeight.bold),)),
-                    ),
-               
-                  Row(
-                    children:  [
-                       Icon(Icons.discount,color: ColorManager.green,),
-                     const   SizedBox(
-                        height: 18.33,
-                        width: 18.33,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 20),
-                        child: Icon(Icons.favorite,color: ColorManager.green,),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-  }
-  Widget _gridimageview(
 
-   
-  ){
+  Widget _ads() {
     return Container(
-      height:125,
-      
-      width: 392,
-      padding: EdgeInsets.only(top: 3,bottom: 8),
-        child: GridView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount:images .length,
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
-              
-                crossAxisSpacing: 5,
-                ),
-            itemBuilder: (context, index) {
-              return GridTile(
-                  child: Container(
-                    
-                     
-                      alignment: Alignment.center,
-                      child: _gridimage(categorieslist[index],images[index]),));
-            },
-          ),
-        );
-    
-  }
-   Widget _gridimage(
-    String name,
-    String image,
-  ) {
-    return Container(
-     
-      height: 120,
-      width: 80,
-      child: Column(
-        children: [
-          Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(
-                    10,
-                  ),
-                ),
-              ),
-              width:80,
-              height: 80,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(
-                 Radius.circular(10)
-                ),
+      height: 185,
+      width: 375,
+      child: CarouselSlider.builder(
+        itemCount: images.length,
+        options: CarouselOptions(viewportFraction: 1, autoPlay: true),
+        itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
+            Container(
+                width: 392.72,
                 child: Image.asset(
-                  image,
+                  images[itemIndex],
                   fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          Center(
-            child: Padding(
-              padding: EdgeInsets.only(left: 10,top: 3),
-              child: Container(
-               
-               
-               child :Text(name,style: TextStyle(fontSize: 12),),
-              ),
-            ),
-          )
-        ],
+                )),
       ),
     );
   }
 }
-
-

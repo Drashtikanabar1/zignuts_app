@@ -12,13 +12,8 @@ class DatabaseService {
 
   final _firebaseFirestore = FirebaseFirestore.instance;
 
-//Stream<QuerySnapshot<Map<String, dynamic>>>
-  Stream<DocumentSnapshot<Map<String, dynamic>>> getStreamOfLoyaltyCards() {
-    return _firebaseFirestore
-        .collection("cardsOfUser")
-        .doc(_auth.getUser()?.uid)
-        .snapshots();
-  }
+
+
 
   saveCardDetails(
       {required String cardName,

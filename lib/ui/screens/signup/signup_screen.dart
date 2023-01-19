@@ -1,28 +1,24 @@
 import 'package:colours/colours.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/coman_widget/buildinputdesign.dart';
-import 'package:firstapp/ui/screens/home/pages/dashboard/dashboard.dart';
+import 'package:firstapp/coman_widget/comoan_text.dart';
+import 'package:firstapp/coman_widget/custom_button.dart';
+import 'package:firstapp/resources/style_manager.dart';
+import 'package:firstapp/ui/screens/home/pages/dashboard/homepage.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
-
-
-
 import 'package:firstapp/resources/colors_manager.dart';
 import 'package:firstapp/resources/statics_manager.dart';
-
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-
 import '../login/login_screen.dart';
-
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _signuppageState();
+  State<RegisterScreen> createState() => _SignuppageState();
 }
 
-class _signuppageState extends State<RegisterScreen> {
+class _SignuppageState extends State<RegisterScreen> {
   final Auth _auth = Auth();
   final emailValidator = MultiValidator([
     RequiredValidator(errorText: StringManager.emailrequried),
@@ -37,15 +33,9 @@ class _signuppageState extends State<RegisterScreen> {
         errorText: StringManager.passwordlvalid)
   ]);
   final usernameValidator = MultiValidator([
-    RequiredValidator(errorText:StringManager.confirmpasswordrequried ),
-   MinLengthValidator(6,
-            errorText: StringManager.userrequried),
+    RequiredValidator(errorText: StringManager.confirmpasswordrequried),
+    MinLengthValidator(6, errorText: StringManager.userrequried),
   ]);
-  
-
-
-
-
 
   List images = ["g.png", "t.png", "f.png"];
   TextEditingController _emailcontroller = TextEditingController();
@@ -55,72 +45,28 @@ class _signuppageState extends State<RegisterScreen> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colours.aliceBlue,
         body: SingleChildScrollView(
           child: Column(children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    bottomRight: Radius.circular(50),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 5,
-                        color: Colours.lavender,
-                        offset: const Offset(
-                          2.0,
-                          3.0,
-                        )),
-                  ]),
-              width: width,
-              height: height * 0.2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: width * 0.06),
-                    child: Text(
-                      "New Account",
-                      style:
-                          TextStyle(fontSize: 30, color: ColorManager.primary),
-                    ),
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(
-                      left: width * 0.06,
-                    ),
-                    child: const Text(
-                      "Sign up and get started",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            _loginFormWidget(height, width),
-            _loginButton(height, width, context),
+            CommonText(
+                title: "New Account", subtitle: "Signup and get Started"),
+            _loginFormWidget(),
+            _loginButton(context),
             SizedBox(
-              height: height * 0.03, 
+              height: Dimensions.height23,
             ),
-            _RegisterPageLink(width, height),
+            _RegisterPageLink(),
           ]),
         ),
       ),
     );
   }
 
-  Widget _loginFormWidget(double height, double width) {
+  Widget _loginFormWidget() {
     return Container(
-        height: height * 0.5,
+        height: Dimensions.height391,
         child: Form(
           key: _loginFormKey,
           child: Column(
@@ -128,28 +74,51 @@ class _signuppageState extends State<RegisterScreen> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              BuildInputBox(hintext:StringManager.usernamelhintext, label:StringManager.usernamelable, controller: _usercontroller,validate: usernameValidator,),
-              BuildInputBox(hintext:StringManager.emaillhintext, label:StringManager.emaillable, controller: _emailcontroller,validate: emailValidator,),
-              BuildInputBox(hintext:StringManager.passwordlable, label:StringManager.passwordlable, controller: _passwordcontroller,validate: passValidator,),
-              BuildInputBox(hintext:StringManager.confirmpassewordhintext, label:StringManager.confirmpasswordlable, controller: _confirmpasswordcontroller,validate:(val) {
-               if (val!.isEmpty) return StringManager.confirmpasswordrequried;
-              if (val != _passwordcontroller.text) return StringManager.confirmpasswordvalid;
-            return null;
-              }, ),
-
-             
+              BuildInputBox(
+                hintext: StringManager.usernamelhintext,
+                label: StringManager.usernamelable,
+                controller: _usercontroller,
+                validate: usernameValidator,
+              ),
+              BuildInputBox(
+                hintext: StringManager.emaillhintext,
+                label: StringManager.emaillable,
+                controller: _emailcontroller,
+                validate: emailValidator,
+              ),
+              BuildInputBox(
+                hintext: StringManager.passwordlable,
+                label: StringManager.passwordlable,
+                controller: _passwordcontroller,
+                validate: passValidator,
+              ),
+              BuildInputBox(
+                hintext: StringManager.confirmpassewordhintext,
+                label: StringManager.confirmpasswordlable,
+                controller: _confirmpasswordcontroller,
+                validate: (val) {
+                  if (val!.isEmpty)
+                    return StringManager.confirmpasswordrequried;
+                  if (val != _passwordcontroller.text)
+                    return StringManager.confirmpasswordvalid;
+                  return null;
+                },
+              ),
             ],
           ),
         ));
   }
-  Widget _loginButton(double height, double width, BuildContext context) {
-    return MaterialButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+
+  Widget _loginButton(BuildContext context) {
+    return CustomButton(
+      text: "Sign In",
       onPressed: () async {
         if (_loginFormKey.currentState!.validate()) {
-          final user = await _auth.creatnewaccount(_emailcontroller.text,
-              _passwordcontroller.text, _usercontroller.text.trim());
-
+          final user = await _auth.creatnewaccount(
+            _emailcontroller.text,
+            _passwordcontroller.text,
+            _usercontroller.text.trim(),
+          );
           if (user != null) {
             if (user == "sucess") {
               Navigator.pushReplacement(
@@ -160,28 +129,22 @@ class _signuppageState extends State<RegisterScreen> {
               print(user.toString());
             }
           } else {
-            print("123");
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("email is already login"),
+              ),
+            );
           }
         }
       },
-      height: height * 0.06,
-      minWidth: width * 0.8,
-      color: ColorManager.primary,
-      child: const Text(
-        StringManager.signuupbutton,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 30,
-        ),
-      ),
     );
   }
 
-  Widget _RegisterPageLink(double width, height) {
+  Widget _RegisterPageLink() {
     return Row(
       children: [
         Container(
-          padding: EdgeInsets.only(left: width * 0.2),
+          padding: EdgeInsets.only(left: Dimensions.width78),
           child: RichText(
             text: const TextSpan(
                 text: "Allready you account ? ",
@@ -191,21 +154,19 @@ class _signuppageState extends State<RegisterScreen> {
                 )),
           ),
         ),
-        Container(
-          child: GestureDetector(
-            onTap: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const LoginScreen()),
-            ),
-            child: RichText(
-              text:  TextSpan(
-                  text: "Login In",
-                  style: TextStyle(
-                    color: ColorManager.primary,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  )),
-            ),
+         GestureDetector(
+          onTap: () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
+          ),
+          child: RichText(
+            text: TextSpan(
+                text: "Login In",
+                style: TextStyle(
+                  color: ColorManager.primary,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                )),
           ),
         ),
       ],

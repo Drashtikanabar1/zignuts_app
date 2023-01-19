@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 
 
@@ -73,14 +76,14 @@ Future<String?> chnagePassword(String confirmpassword)async{
    
   }
 }
-// Future<String?> saveUserCardDeatils(String confirmpassword)async{
-//   try{
-    
-//   }
- 
-// }
 
-//sign in anon
+   Future<File?> cropImage({required File imageFile}) async {
+    CroppedFile? croppedImage =
+        await ImageCropper().cropImage(sourcePath: imageFile.path);
+    if (croppedImage == null) return null;
+    return File(croppedImage.path);
+  }
+
   sigOut(){
     _auth.signOut();
 } 

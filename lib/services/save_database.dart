@@ -4,6 +4,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
+import 'package:firstapp/user_preferences/user_preferences.dart';
+import 'package:firstapp/user_preferences/user_preferences.dart';
+
  
 
 
@@ -19,7 +22,7 @@ class StorageService {
     final reference = await _firebaseStorage
         .ref("userloylticard")
         .child(await _auth.getUser()!.uid)
-        .child("1");
+        .child(await UserPreferences.getLoginUserInfo().then((value) => value.id.toString()));
 
     final frontViewLink =
         await reference.child("front").putFile(frontView!).then((p0) {
@@ -33,4 +36,5 @@ class StorageService {
     List<String> list = [frontViewLink, backViewLink];
     return list;
   }
+  
 }

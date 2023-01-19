@@ -4,6 +4,7 @@ import 'package:firstapp/coman_widget/buildinputdesign.dart';
 
 
 import 'package:firstapp/resources/colors_manager.dart';
+import 'package:firstapp/resources/style_manager.dart';
 import 'package:firstapp/ui/screens/login/login_screen.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -30,8 +31,7 @@ class _ResetPageState extends State<ResetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final h = MediaQuery.of(context).size.height;
-    final w = MediaQuery.of(context).size.width;
+   
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -45,12 +45,12 @@ class _ResetPageState extends State<ResetPasswordScreen> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(alignment: Alignment.centerLeft, child: _titleWidget(h, w)),
+              Align(alignment: Alignment.centerLeft, child: _titleWidget()),
               SizedBox(
-                height: h * 0.015,
+                height:Dimensions.height12,
               ),
-              _loginFormWidget(h, w),
-              _sendlink(h, w),
+              _loginFormWidget(),
+              _sendlink(),
             ],
           ),
         ),
@@ -58,16 +58,16 @@ class _ResetPageState extends State<ResetPasswordScreen> {
     );
   }
 
-  Widget _titleWidget(double h, double w) {
+  Widget _titleWidget() {
     return Container(
-      width: w,
-      padding: EdgeInsets.only(top: h * 0.03),
+      width: Dimensions.screenWidth,
+      padding: EdgeInsets.only(top:Dimensions.height23),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.only(left: w * 0.04),
+              padding: EdgeInsets.only(left: Dimensions.width15),
               child: RichText(
                 text: const TextSpan(
                     text: "Reset Password",
@@ -79,7 +79,7 @@ class _ResetPageState extends State<ResetPasswordScreen> {
               ),
             ),
             Container(
-                padding: EdgeInsets.only(left: w * 0.04, top: h * 0.02),
+                padding: EdgeInsets.only(left:Dimensions.width15, top: Dimensions.height15),
                 child: Text(
                     "Enter the email associted with your account and we'll send an email with instruction to reset your password",style: TextStyle(),),
                     
@@ -88,24 +88,27 @@ class _ResetPageState extends State<ResetPasswordScreen> {
     );
   }
 
-  Widget _loginFormWidget(double height, double w) {
-    return Container(
-        height: height * 0.2,
-        child: Form(
-          key: _loginFormKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              BuildInputBox(hintext: "Email", label: "Email address", controller: _emailcontroller)
+  Widget _loginFormWidget() {
+    return Padding(
+      padding:  EdgeInsets.only(left: 40),
+      child: Container(
+          height: Dimensions.height156,
+          child: Form(
+            key: _loginFormKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                BuildInputBox(hintext: "Email", label: "Email address", controller: _emailcontroller)
 
-            ],
-          ),
-        ));
+              ],
+            ),
+          )),
+    );
   }
 
-  Widget _sendlink(double height, double width) {
+  Widget _sendlink() {
     return Center(
       child: Container(
         

@@ -1,23 +1,15 @@
-import 'package:colours/colours.dart';
-import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/coman_widget/buildinputdesign.dart';
+import 'package:firstapp/coman_widget/comoan_text.dart';
+import 'package:firstapp/coman_widget/custom_button.dart';
 import 'package:firstapp/resources/style_manager.dart';
-import 'package:firstapp/ui/screens/home/pages/dashboard/dashboard.dart';
+import 'package:firstapp/ui/screens/home/pages/dashboard/homepage.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
-
 import 'package:firstapp/ui/screens/login/reset_screen.dart';
 import 'package:firstapp/resources/colors_manager.dart';
-
 import 'package:firstapp/ui/screens/signup/signup_screen.dart';
-// ignore: unnecessary_import
-import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-
-
-// ignore: camel_case_types
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -25,7 +17,6 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _loginscreenState();
 }
 
-// ignore: camel_case_types
 class _loginscreenState extends State<LoginScreen> {
   final Auth _auth = Auth();
   TextEditingController _emailcontroller = TextEditingController();
@@ -50,8 +41,6 @@ class _loginscreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -60,23 +49,24 @@ class _loginscreenState extends State<LoginScreen> {
               Expanded(
                 child: Column(
                   children: [
-                    _welcome(height, width),
+                    CommonText(
+                        title: "Welcome!", subtitle: "Sign in and get started"),
                     SizedBox(
-                      height: height * 0.09,
+                      height: Dimensions.height70,
                     ),
-                    _loginFormWidget(height, width),
+                    _loginFormWidget(),
                     SizedBox(
-                      height: height * 0.03,
+                      height: Dimensions.height23,
                     ),
-                    _loginButton(height, width),
+                    _loginButton(),
                     SizedBox(
-                      height: height * 0.03,
+                      height: Dimensions.height23,
                     ),
-                    _forgetpassword(height, width),
+                    _forgetpassword(),
                     SizedBox(
-                      height: height * 0.04,
+                      height: Dimensions.height31,
                     ),
-                    _RegisterPageLink(width, height),
+                    _RegisterPageLink(),
                   ],
                 ),
               ),
@@ -87,53 +77,7 @@ class _loginscreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _welcome(double height, double width) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.only(
-            bottomRight: Radius.circular(50),
-          ),
-          boxShadow: [
-            BoxShadow(
-                blurRadius: 5,
-                color: Colours.lavender,
-                offset: const Offset(
-                  2.0,
-                  3.0,
-                )),
-          ]),
-      width: width,
-      height: height * 0.2,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: EdgeInsets.only(left: width * 0.06),
-            child:  Text(
-              "Welcome!",
-              style: TextStyle(fontSize: 30, color: ColorManager.primary),
-            ),
-          ),
-          SizedBox(
-            height: height * 0.016,
-          ),
-          Container(
-            padding: EdgeInsets.only(
-              left: width * 0.06,
-            ),
-            child: const Text(
-              "Sign in and get started",
-              style: TextStyle(fontSize: 18),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _loginFormWidget(double height, double width) {
+  Widget _loginFormWidget() {
     return Container(
         child: Form(
       key: _loginFormKey,
@@ -142,71 +86,70 @@ class _loginscreenState extends State<LoginScreen> {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          BuildInputBox(hintext: "email", label: "Email", controller:_emailcontroller,validate: emailValidator),
-           SizedBox(height: height*0.03,),
-          BuildInputBox(hintext: "password", label: "password", controller: _passwordcontroller,validate :passValidator)
+          BuildInputBox(
+              hintext: "email",
+              label: "Email",
+              controller: _emailcontroller,
+              validate: emailValidator),
+          SizedBox(height: Dimensions.height23),
+          BuildInputBox(
+              hintext: "password",
+              label: "password",
+              controller: _passwordcontroller,
+              validate: passValidator)
         ],
       ),
     ));
   }
-  Widget _loginButton(double height, double width) {
-    return MaterialButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      onPressed: () async {
-        if (_loginFormKey.currentState!.validate()) {
-          setState(() {
-            showSpinner = true;
-          });
 
-          final user = await _auth
-              .signInWithEmailAndPassword(_emailcontroller.text.toString(),
-                  _passwordcontroller.text.toString())
-              .whenComplete(() => print("login sucessfully"));
-          if (user != null) {
-            
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("enter valid credential"),
-              ),
-            );
-          }
-        }
-        setState(() {
-          showSpinner = false;
-        });
-      },
-      minWidth: Dimensions.width314,
-      height: height * 0.06,
-      color: ColorManager.primary,
-      child: const Text(
-        "Log in",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 25,
-        ),
-      ),
-    );
+  Widget _loginButton() {
+    return showSpinner
+        ? CircularProgressIndicator()
+        : CustomButton(
+            text: "log In",
+            onPressed: () async {
+              if (_loginFormKey.currentState!.validate()) {
+                setState(() {
+                  showSpinner = true;
+                });
+                final user = await _auth.signInWithEmailAndPassword(
+                    _emailcontroller.text.toString(),
+                    _passwordcontroller.text.toString());
+                if (user != null) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("enter valid credential"),
+                    ),
+                  );
+                }
+              }
+              setState(() {
+                showSpinner = false;
+              });
+            },
+          );
   }
 
-  Widget _forgetpassword(double height, double width) {
+  Widget _forgetpassword() {
     return Container(
       padding: EdgeInsets.only(left: Dimensions.width157),
       child: TextButton(
           child: Text("Forgot password?",
               style: TextStyle(color: Colors.grey.shade700)),
-          onPressed: () {{} Navigator.of(context).push(
-            
+          onPressed: () {
+            Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => ResetPasswordScreen()),
-            );}),
+            );
+          }),
     );
   }
 
-  Widget _RegisterPageLink(double width, height) {
+  Widget _RegisterPageLink() {
     return Container(
       child: Row(
         children: [
@@ -214,7 +157,7 @@ class _loginscreenState extends State<LoginScreen> {
             padding: EdgeInsets.only(left: Dimensions.width98),
             child: RichText(
               text: const TextSpan(
-                  text: "Don\'t Have account?" ,
+                  text: "Don\'t Have account?",
                   style: TextStyle(
                     color: Colors.black45,
                     fontSize: 15,
@@ -222,14 +165,14 @@ class _loginscreenState extends State<LoginScreen> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(left:Dimensions.width8),
+            padding: EdgeInsets.only(left: Dimensions.width8),
             child: GestureDetector(
               onTap: () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const RegisterScreen()),
               ),
               child: RichText(
-                text:  TextSpan(
+                text: TextSpan(
                     text: "Create",
                     style: TextStyle(
                       color: ColorManager.primary,

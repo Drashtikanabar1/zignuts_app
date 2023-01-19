@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../../../resources/style_manager.dart';
+
 
 class SelectPhotoOptionsScreen extends StatelessWidget {
   final Function(ImageSource source) onTap;
@@ -25,7 +27,7 @@ class SelectPhotoOptionsScreen extends StatelessWidget {
             child: Container(
               width: 50,
               height: 6,
-              margin: const EdgeInsets.only(bottom: 20),
+              margin:  EdgeInsets.only(bottom: Dimensions.height20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(2.5),
                 color: Colors.white,

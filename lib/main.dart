@@ -3,7 +3,7 @@ import 'package:firstapp/Authentication/goole_sign_in.dart';
 import 'package:firstapp/ui/screens/home/pages/categories/categories_screen.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/view_card.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/new_card.dart';
-import 'package:firstapp/ui/screens/home/pages/dashboard/dashboard.dart';
+import 'package:firstapp/ui/screens/home/pages/dashboard/homepage.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
 import 'package:firstapp/ui/screens/home/pages/dashboard/change_password.dart';
 import 'package:firstapp/ui/screens/login/login_screen.dart';
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         'home':(context) => HomePage(),
         'changepassword':(context)=>ChangePassword(),
         'categories':(context) => Categories(),
-        'newcard':(context) => Newloylticard(),
+        
         'card':(context) => Cardgridview(),
         
       },

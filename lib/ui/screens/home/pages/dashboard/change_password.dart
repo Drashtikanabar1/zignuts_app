@@ -92,37 +92,41 @@ class _ChangePasswordState extends State<ChangePassword> {
   }
 
   Widget _loginFormWidget(double height, double w) {
-    return Container(
-        height: height * 0.25,
-        child: Form(
-          key: _loginFormKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              BuildInputBox(
-                hintext: "Password",
-                label: "Password",
-                controller: _passwordcontroller,
-                validate: passValidator,
-              ),
-              SizedBox(
-                height: height * 0.03,
-              ),
-              BuildInputBox(
-                  hintext: "Confirm Password",
-                  label: "Confirm Password",
-                  controller: _confirmpasswordcontroller,
-                  validate: (val) {
-                    if (val!.isEmpty) return 'password is requried';
-                    if (val != _passwordcontroller.text)
-                      return '"Both should match';
-                    return null;
-                  })
-            ],
-          ),
-        ));
+    return Padding(
+      padding: const EdgeInsets.only(left: 40,right: 30),
+      child: Container(
+   
+          height: height * 0.25,
+          child: Form(
+            key: _loginFormKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                BuildInputBox(
+                  hintext: "Password",
+                  label: "Password",
+                  controller: _passwordcontroller,
+                  validate: passValidator,
+                ),
+                SizedBox(
+                  height: height * 0.03,
+                ),
+                BuildInputBox(
+                    hintext: "Confirm Password",
+                    label: "Confirm Password",
+                    controller: _confirmpasswordcontroller,
+                    validate: (val) {
+                      if (val!.isEmpty) return 'password is requried';
+                      if (val != _passwordcontroller.text)
+                        return '"Both should match';
+                      return null;
+                    })
+              ],
+            ),
+          )),
+    );
   }
 
   Widget _sendlink(double height, double width) {

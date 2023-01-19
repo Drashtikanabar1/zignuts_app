@@ -13,23 +13,15 @@ import 'package:flutter/material.dart';
 
 class Dilogbox{
    final Auth _auth = Auth();
-   Widget  dialog (BuildContext context){
+    static Widget  dialog ({required BuildContext context,required content, required Function() onYes}){
       
    return AlertDialog(
           
             title: Text('Are you sure?'),
-            content : Text('Do you want to exit the App'),
+            content : Text(content),
             actions: <Widget>[
               TextButton(
-                onPressed: () async{
-                  if(FirebaseAuth.instance.currentUser != null)
-                   {
-                     await _auth.sigOut();
-                   }
-                   
-                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: ((context) => LoginScreen())), (route) => false);
-              
-                },
+                onPressed:onYes,
                 child: Text('yes'),
               ),
               TextButton(
@@ -44,3 +36,5 @@ class Dilogbox{
 
    }
 }
+
+
