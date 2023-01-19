@@ -6,7 +6,7 @@ import 'package:firstapp/model/loylti_card.dart';
 import 'package:firstapp/resources/style_manager.dart';
 import 'package:firstapp/services/save_database.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/utilies/custom_form.dart';
-import 'package:firstapp/ui/screens/home/pages/loylticard/utilies/form_section.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/utilies/choose_image.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/utilies/select_photo_option.dart';
 import 'package:firstapp/resources/assets_manager.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/view_card.dart';
