@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/resources/assets_manager.dart';
 import 'package:firstapp/resources/style_manager.dart';
-import 'package:firstapp/ui/screens/home/pages/dashboard/homepage.dart';
+import 'package:firstapp/ui/screens/home/pages/homepage/homepage.dart';
 import 'package:firstapp/ui/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 

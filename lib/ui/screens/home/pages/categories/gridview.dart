@@ -98,9 +98,7 @@ Widget _customgirdimage(
           ),
         );
   }
-  Widget _gridimageview(
-
-   
+  Widget _gridimageview( 
   ){
     return Container(
       height:125,

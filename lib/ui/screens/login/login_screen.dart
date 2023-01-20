@@ -1,8 +1,9 @@
 import 'package:firstapp/coman_widget/buildinputdesign.dart';
 import 'package:firstapp/coman_widget/comoan_text.dart';
 import 'package:firstapp/coman_widget/custom_button.dart';
+import 'package:firstapp/resources/string_manager.dart';
 import 'package:firstapp/resources/style_manager.dart';
-import 'package:firstapp/ui/screens/home/pages/dashboard/homepage.dart';
+import 'package:firstapp/ui/screens/home/pages/homepage/homepage.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
 import 'package:firstapp/ui/screens/login/reset_screen.dart';
 import 'package:firstapp/resources/colors_manager.dart';
@@ -27,13 +28,13 @@ class _loginscreenState extends State<LoginScreen> {
   //A function that validate user entered password
 
   final emailValidator = MultiValidator([
-    RequiredValidator(errorText: 'email is requried'),
+    RequiredValidator(errorText:StringManager.emailrequried),
     PatternValidator(
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
         errorText: "please enter vaild email")
   ]);
   final passValidator = MultiValidator([
-    RequiredValidator(errorText: 'password is requried'),
+    RequiredValidator(errorText:StringManager.passwordrequried ),
     PatternValidator(
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
         errorText: "please enter vaild password")
@@ -50,7 +51,7 @@ class _loginscreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     CommonText(
-                        title: "Welcome!", subtitle: "Sign in and get started"),
+                        title:StringManager.welcome, subtitle:StringManager.loginsubtitle),
                     SizedBox(
                       height: Dimensions.height70,
                     ),
@@ -87,14 +88,14 @@ class _loginscreenState extends State<LoginScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           BuildInputBox(
-              hintext: "email",
-              label: "Email",
+              hintext:StringManager.emaillhintext,
+              label:StringManager.emaillable,
               controller: _emailcontroller,
               validate: emailValidator),
           SizedBox(height: Dimensions.height23),
           BuildInputBox(
-              hintext: "password",
-              label: "password",
+              hintext:StringManager.passwordhintext,
+              label:StringManager.passwordlable,
               controller: _passwordcontroller,
               validate: passValidator)
         ],
@@ -106,7 +107,7 @@ class _loginscreenState extends State<LoginScreen> {
     return showSpinner
         ? CircularProgressIndicator()
         : CustomButton(
-            text: "log In",
+            text:StringManager.loginbutton,
             onPressed: () async {
               if (_loginFormKey.currentState!.validate()) {
                 setState(() {
@@ -123,7 +124,7 @@ class _loginscreenState extends State<LoginScreen> {
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text("enter valid credential"),
+                      content: Text(StringManager.entervaildcredential),
                     ),
                   );
                 }
@@ -139,7 +140,7 @@ class _loginscreenState extends State<LoginScreen> {
     return Container(
       padding: EdgeInsets.only(left: Dimensions.width157),
       child: TextButton(
-          child: Text("Forgot password?",
+          child: Text(StringManager.Forgotpassword,
               style: TextStyle(color: Colors.grey.shade700)),
           onPressed: () {
             Navigator.of(context).push(
@@ -157,7 +158,7 @@ class _loginscreenState extends State<LoginScreen> {
             padding: EdgeInsets.only(left: Dimensions.width98),
             child: RichText(
               text: const TextSpan(
-                  text: "Don\'t Have account?",
+                  text: StringManager.donthaveaccount,
                   style: TextStyle(
                     color: Colors.black45,
                     fontSize: 15,
@@ -173,7 +174,7 @@ class _loginscreenState extends State<LoginScreen> {
               ),
               child: RichText(
                 text: TextSpan(
-                    text: "Create",
+                    text: StringManager.create,
                     style: TextStyle(
                       color: ColorManager.primary,
                       fontSize: 18,

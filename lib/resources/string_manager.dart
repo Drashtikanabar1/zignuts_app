@@ -1,3 +1,5 @@
+import 'package:firstapp/ui/screens/login/login_screen.dart';
+
 class StringManager{
    //dashboard cpntent
   static const String homecontent="inside the Homescreen";
@@ -8,7 +10,9 @@ class StringManager{
    static const String categoriappbar ="Categories";
    static const String yourfavourite ="Your Favourite";
    static const String allcategories ="All Categories";
-
+   static const String paymentMethod="Payment Method";
+   static const String changePassword="Change Password";
+    
 
    // validate string
    static const String  emailrequried="email is requried";
@@ -27,18 +31,45 @@ class StringManager{
   static const String passwordhintext="Password";
   static const String confirmpassewordhintext="Confirm Password";
 
-  
+  //lable
   static const String usernamelable="Username";
   static const String emaillable="Email";
   static const String passwordlable="Password";
   static const String confirmpasswordlable="Confirm Passsword";
 
-
+ //button
   static const String  signuupbutton ="Sign Up";
-  static const String   allreadyaccount ="Allready you account";
-  static const String  loginbutton ="Login In";
+  static const String   allreadyaccount ="Allready you account?";
+  static const String  loginbutton ="Log In";
+  static const String create="Create";
+  static const String Forgotpassword="Forgot password?";
+  static const String resetpassword="Reset password?";
   
 
-  
+  // customdilog
+   static const String Areusure="Are you sure?";
+   static const String yes="Yes";
+  static const String No="No";
 
+  //snackbar
+    static const String emailisalredylogin="Email is already login";
+    static const String entervaildcredential="enter valid credential";
+    static const String sendPasswordResetEmail="Password Reset Email Sent";
+    static const String  nouserfoundthatemail="No user found for that email";
+    
+   
+   //signup
+    static const String newaccount="New Account";
+    static const String signupsubtitle="Signup and get Started";
+
+  //LoginScreen
+   static const String donthaveaccount="Don\'t Have account?";
+   static const String welcome="Welcome!";
+   static const String loginsubtitle= "Sign in and get started";
+   //resetscreen
+   static const String resettitle= "Enter the email associted with your account and we'll send an email with instruction to reset your password";
+   static const String backicon= "Back";
+   
+  // error
+   static const String notfond ="not found";
 }

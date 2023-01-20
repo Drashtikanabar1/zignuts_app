@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firstapp/resources/assets_manager.dart';
 import 'package:firstapp/resources/colors_manager.dart';
-import 'package:firstapp/resources/statics_manager.dart';
+import 'package:firstapp/resources/string_manager.dart';
 import 'package:firstapp/resources/style_manager.dart';
 import 'package:firstapp/ui/screens/home/pages/categories/custom_image.dart';
 import 'package:firstapp/ui/screens/home/pages/categories/gridview.dart';

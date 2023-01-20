@@ -3,10 +3,10 @@ import 'package:firstapp/coman_widget/buildinputdesign.dart';
 import 'package:firstapp/coman_widget/comoan_text.dart';
 import 'package:firstapp/coman_widget/custom_button.dart';
 import 'package:firstapp/resources/style_manager.dart';
-import 'package:firstapp/ui/screens/home/pages/dashboard/homepage.dart';
+import 'package:firstapp/ui/screens/home/pages/homepage/homepage.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
 import 'package:firstapp/resources/colors_manager.dart';
-import 'package:firstapp/resources/statics_manager.dart';
+import 'package:firstapp/resources/string_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import '../login/login_screen.dart';
@@ -51,7 +51,7 @@ class _SignuppageState extends State<RegisterScreen> {
         body: SingleChildScrollView(
           child: Column(children: <Widget>[
             CommonText(
-                title: "New Account", subtitle: "Signup and get Started"),
+                title: StringManager.newaccount, subtitle: StringManager.signupsubtitle),
             _loginFormWidget(),
             _loginButton(context),
             SizedBox(
@@ -111,7 +111,7 @@ class _SignuppageState extends State<RegisterScreen> {
 
   Widget _loginButton(BuildContext context) {
     return CustomButton(
-      text: "Sign In",
+      text: StringManager.signuupbutton      ,
       onPressed: () async {
         if (_loginFormKey.currentState!.validate()) {
           final user = await _auth.creatnewaccount(
@@ -131,7 +131,7 @@ class _SignuppageState extends State<RegisterScreen> {
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text("email is already login"),
+                content: Text(StringManager.emailisalredylogin),
               ),
             );
           }
@@ -147,7 +147,7 @@ class _SignuppageState extends State<RegisterScreen> {
           padding: EdgeInsets.only(left: Dimensions.width78),
           child: RichText(
             text: const TextSpan(
-                text: "Allready you account ? ",
+                text:StringManager.allreadyaccount ,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
@@ -161,7 +161,7 @@ class _SignuppageState extends State<RegisterScreen> {
           ),
           child: RichText(
             text: TextSpan(
-                text: "Login In",
+                text: StringManager.loginbutton,
                 style: TextStyle(
                   color: ColorManager.primary,
                   fontSize: 20,

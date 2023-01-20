@@ -8,7 +8,7 @@ import 'package:firstapp/ui/screens/home/pages/dashboard.dart';
 
 import 'package:firstapp/ui/dialogs/dilogbox.dart';
 import 'package:firstapp/resources/colors_manager.dart';
-import 'package:firstapp/resources/statics_manager.dart';
+import 'package:firstapp/resources/string_manager.dart';
 import 'package:firstapp/ui/screens/home/pages/list/list.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/view_card.dart';
 import 'package:flutter/foundation.dart';

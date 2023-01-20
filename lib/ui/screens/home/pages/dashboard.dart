@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firstapp/resources/string_manager.dart';
 import 'package:firstapp/ui/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 
 import '../../../../authentication/auth_database.dart';
 import '../../../dialogs/dilogbox.dart';
-import 'dashboard/change_password.dart';
+import 'homepage/change_password.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -18,7 +19,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   final Auth  _auth = Auth();
  
-  User? currentUser =null;
+  User? currentUser;
   @override
   void initState() {
     currentUser =_auth.getUser();
@@ -29,12 +30,12 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(
-        title: Text("  "),
+        title: Text(" "),
         backgroundColor: Colors.green,
       ),
       body:const Center(
           child: Text(
-        'A drawer is an invisible side screen.',
+        StringManager.homecontent,
         style: TextStyle(fontSize: 20.0),
       )),
      drawer: Drawer(
@@ -48,10 +49,10 @@ class _DashboardState extends State<Dashboard> {
               child: UserAccountsDrawerHeader(
                 decoration: BoxDecoration(color: Colors.green),
                 accountName: Text(
-                  currentUser!.displayName ?? "not found",
+                  currentUser!.displayName ?? StringManager.notfond,
                   style: TextStyle(fontSize: 18),
                 ),
-                accountEmail: Text(currentUser!.email ?? "not found"),
+                accountEmail: Text(currentUser!.email ?? StringManager.notfond),
                 currentAccountPictureSize: Size.square(50),
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Color.fromARGB(255, 165, 255, 137),
@@ -78,7 +79,7 @@ class _DashboardState extends State<Dashboard> {
             ),
             ListTile(
               leading: const Icon(Icons.workspace_premium),
-              title: const Text('password '),
+              title: const Text(StringManager.passwordhintext),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -92,7 +93,7 @@ class _DashboardState extends State<Dashboard> {
             ),
             ListTile(
               leading: const Icon(Icons.edit),
-              title: const Text(' change password'),
+              title: const Text(StringManager.changePassword),
               onTap: () {
                 Navigator.push(
                   context,
