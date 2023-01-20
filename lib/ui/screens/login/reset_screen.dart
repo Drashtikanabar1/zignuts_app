@@ -11,7 +11,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
-
+ static const String id = 'ResetPassword';
   @override
   State<ResetPasswordScreen> createState() => _ResetPageState();
 }
@@ -108,34 +108,32 @@ class _ResetPageState extends State<ResetPasswordScreen> {
 
   Widget _sendlink() {
     return Center(
-      child: Container(
-        child: ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(ColorManager.primary)),
-            child: const Text(StringManager.resetpassword,
-                style: TextStyle(color: Colors.white)),
-            onPressed: () async {
-              try {
-                await FirebaseAuth.instance.sendPasswordResetEmail(
-                    email: _emailcontroller.text.toString());
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text(StringManager.sendPasswordResetEmail),
-                ));
+      child: ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all(ColorManager.primary)),
+          child: const Text(StringManager.resetpassword,
+              style: TextStyle(color: Colors.white)),
+          onPressed: () async {
+            try {
+              await FirebaseAuth.instance.sendPasswordResetEmail(
+                  email: _emailcontroller.text.toString());
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text(StringManager.sendPasswordResetEmail),
+              ));
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
-                );
-              } on FirebaseAuthException catch (e) {
-                if (e.code == 'user-not-found') {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(StringManager.nouserfoundthatemail),
-                  ));
-                }
-              } catch (e) {}
-            }),
-      ),
+              Navigator.pushNamed(
+                context,
+               LoginScreen.id,
+              );
+            } on FirebaseAuthException catch (e) {
+              if (e.code == 'user-not-found') {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text(StringManager.nouserfoundthatemail),
+                ));
+              }
+            } catch (e) {}
+          }),
     );
   }
 }

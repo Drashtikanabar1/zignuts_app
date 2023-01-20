@@ -5,34 +5,38 @@ import 'package:firstapp/authentication/auth_database.dart';
 import 'package:firstapp/model/loylti_card.dart';
 import 'package:firstapp/resources/style_manager.dart';
 import 'package:firstapp/services/save_database.dart';
-import 'package:firstapp/ui/screens/home/pages/loylticard/utilies/custom_form.dart';
-import 'package:firstapp/ui/screens/home/pages/loylticard/utilies/choose_image.dart';
-import 'package:firstapp/ui/screens/home/pages/loylticard/utilies/select_photo_option.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/utils/addLoyltiCard_aregument.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/utils/custom_form.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/utils/choose_image.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/utils/select_photo_option.dart';
 import 'package:firstapp/resources/assets_manager.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/view_card.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:image_cropper/image_cropper.dart';
+
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../../resources/colors_manager.dart';
 
-class Newloylticard extends StatefulWidget {
-  LoyltiCard loyltiCard;
- bool? editenable;
-  Newloylticard({super.key, required this.loyltiCard,  this.editenable});
+class Addloylticard extends StatefulWidget {
 
+  Addloylticard({super.key, });
+  static const String id = 'AddLoylticard';
   @override
-  State<Newloylticard> createState() => _NewloylticardState();
+  State<Addloylticard> createState() => _AddloylticardState();
 }
 
-class _NewloylticardState extends State<Newloylticard> {
+class _AddloylticardState extends State<Addloylticard> {
+
   File? _image;
   File? _image1;
   bool isFrnotSide = false;
   bool _isLoading = false;
-  bool _isenable = true;
+  bool _isEnable = true;
 
   var selectedVendor = "";
   List vendorList = [
@@ -63,86 +67,82 @@ class _NewloylticardState extends State<Newloylticard> {
 
   final GlobalKey<FormState> _cardFormKey = GlobalKey<FormState>();
   final Auth _auth = Auth();
-  
 
-
-  void _submitForm() async {
+  void _submitForm(AddloylticardArguments args) async {
     final isValid = _cardFormKey.currentState!.validate();
 
     if (isValid) {
       _cardFormKey.currentState!.save();
       try {
-       
-          if(widget.editenable != null){
-            if(_image !=null && _image1 !=null){
-              setState(() {
-            _isLoading = true;
-            _isenable = false;
-          });
-              final url = await _storageService.saveCardImages(_image!, _image1!);
-              setState(() {
-                widget.loyltiCard.frontCardUrl=url[0];
-                widget.loyltiCard.backCardUrl=url[1];
-              });
-              }
-            
+        if (args.editEnable != null) {
+          if (_image != null && _image1 != null) {
+            setState(() {
+              _isLoading = true;
+              _isEnable = false;
+            });
+            final url = await _storageService.saveCardImages(_image!, _image1!);
+            setState(() {
+              args.loyltiCard.frontCardUrl = url[0];
+              args.loyltiCard.backCardUrl = url[1];
+            });
+          }
 
           await FirebaseFirestore.instance
               .collection('loylticrad')
               .doc(_auth.getUser()?.uid)
               .collection("userloylticard")
-              .doc(widget.loyltiCard.id)
+              .doc(args.loyltiCard.id)
               .update({
             'cardame': _cardnocontroller.text,
             'name': _cardnamecontroller.text,
             'vendor': selectedVendor,
             'websiteurl': _websiteurlcontroller.text,
             'notes': _notescontroller.text,
-            'frontcardurl': widget.loyltiCard.frontCardUrl,
-            'backcardurl': widget.loyltiCard.backCardUrl,
+            'frontcardurl': args.loyltiCard.frontCardUrl,
+            'backcardurl': args.loyltiCard.backCardUrl,
           });
-      Navigator.pushReplacement(
+          Navigator.pushReplacementNamed(
             context,
-            MaterialPageRoute(builder: (context) => Cardgridview()),
+            Cardgridview.id
           );
-       }else{
-         if(_image!=null && _image1 !=null){
-          setState(() {
-            _isLoading = true;
-            _isenable = false;
-          });
-          final url = await _storageService.saveCardImages(_image!, _image1!);
+        } else {
+          if (_image != null && _image1 != null) {
+            setState(() {
+              _isLoading = true;
+              _isEnable = false;
+            });
+            final url = await _storageService.saveCardImages(_image!, _image1!);
 
-          await FirebaseFirestore.instance
-              .collection('loylticrad')
-              .doc(_auth.getUser()?.uid)
-              .collection("userloylticard")
-              .doc()
-              .set({
-            'cardame': _cardnocontroller.text,
-            'name': _cardnamecontroller.text,
-            'vendor': selectedVendor,
-            'websiteurl': _websiteurlcontroller.text,
-            'notes': _notescontroller.text,
-            'frontcardurl': url[0],
-            'backcardurl': url[1],
-          });
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => Cardgridview()),
-          );
-         }
-          else{
-             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Please pick image ")));
-         }
-       }
+            await FirebaseFirestore.instance
+                .collection('loylticrad')
+                .doc(_auth.getUser()?.uid)
+                .collection("userloylticard")
+                .doc()
+                .set({
+              'cardame': _cardnocontroller.text,
+              'name': _cardnamecontroller.text,
+              'vendor': selectedVendor,
+              'websiteurl': _websiteurlcontroller.text,
+              'notes': _notescontroller.text,
+              'frontcardurl': url[0],
+              'backcardurl': url[1],
+            });
+            Navigator.pushReplacementNamed(
+              context,
+             Cardgridview.id,
+            );
+          } else {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text("Please pick image ")));
+          }
+        }
       } catch (error) {
         print('error occured : $error');
       } finally {
         if (mounted) {
           setState(() {
             _isLoading = false;
-            _isenable = true;
+            _isEnable = true;
           });
         }
       }
@@ -155,7 +155,7 @@ class _NewloylticardState extends State<Newloylticard> {
       if (image == null) return;
       File? img = File(image.path);
       img = await _auth.cropImage(imageFile: img);
-      
+
       if (isFrnotSide) {
         setState(() {
           _image = img;
@@ -164,7 +164,6 @@ class _NewloylticardState extends State<Newloylticard> {
       } else {
         setState(() {
           _image1 = img;
-         
         });
       }
     } on PlatformException catch (e) {
@@ -173,8 +172,9 @@ class _NewloylticardState extends State<Newloylticard> {
     }
   }
 
-
-  void _showSelectPhotoOptions(BuildContext context,) {
+  void _showSelectPhotoOptions(
+    BuildContext context,
+  ) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -199,19 +199,23 @@ class _NewloylticardState extends State<Newloylticard> {
 
   @override
   void initState() {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
+        final args =ModalRoute.of(context)!.settings.arguments as AddloylticardArguments;
+      
     setState(() {
-      _cardnocontroller.text = widget.loyltiCard.cardName!;
-      _cardnamecontroller.text = widget.loyltiCard.name!;
-      _websiteurlcontroller.text = widget.loyltiCard.websiteUrl!;
-      _notescontroller.text = widget.loyltiCard.notes!;
-      selectedVendor=widget.loyltiCard.vendor!;
+      _cardnocontroller.text = args.loyltiCard.cardName!;
+      _cardnamecontroller.text = args.loyltiCard.name!;
+      _websiteurlcontroller.text = args.loyltiCard.websiteUrl!;
+      _notescontroller.text = args.loyltiCard.notes!;
+      selectedVendor = args.loyltiCard.vendor!;
     });
-
+      });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final args =ModalRoute.of(context)!.settings.arguments as AddloylticardArguments;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -229,7 +233,7 @@ class _NewloylticardState extends State<Newloylticard> {
             SizedBox(
               height: Dimensions.height31,
             ),
-            _takeimage(),
+            _takeimage(args),
             // ShowImage(loyltiCard: widget.loyltiCard, enabled:_isenable,image:_image,image1: _image1,),
             SizedBox(
               height: Dimensions.height23,
@@ -238,7 +242,7 @@ class _NewloylticardState extends State<Newloylticard> {
             SizedBox(
               height: Dimensions.height23,
             ),
-            _saveButton(),
+            _saveButton(args),
           ],
         ),
       ),
@@ -261,42 +265,39 @@ class _NewloylticardState extends State<Newloylticard> {
     );
   }
 
-  Widget _takeimage() {
+  Widget _takeimage(AddloylticardArguments args) {
     return Row(
-        children: [
-           TakeImage(
-            image: _image,
-            onPressed:() {
-                     widget.loyltiCard.frontCardUrl= "" ;
-                      setState(() {
-                        isFrnotSide = true;
-                      });
-                      _showSelectPhotoOptions(context);
-                    } ,
-                    title: "Card front",
-                    enabled: _isenable,
-                    url: widget.loyltiCard.frontCardUrl!,
-                    defultimg: ImageAssets.card,
-                    ),
-             TakeImage(
-                 image: _image1,
-                   onPressed:() {
-
-                      widget.loyltiCard.backCardUrl= "" ;
-                      setState(() {
-                        isFrnotSide =false;
-                      });
-                      _showSelectPhotoOptions(context);
-                    } ,
-                    title: "Card back",
-                    enabled: _isenable,
-                    url: widget.loyltiCard.backCardUrl!,
-                    defultimg: ImageAssets.backcard,
-                    ),   
-          
-        ],
-      );
-    
+      children: [
+        TakeImage(
+          image: _image,
+          onPressed: () {
+            args.loyltiCard.frontCardUrl = "";
+            setState(() {
+              isFrnotSide = true;
+            });
+            _showSelectPhotoOptions(context);
+          },
+          title: "Card front",
+          enabled: _isEnable,
+          url:args.loyltiCard.frontCardUrl!,
+          defultimg: ImageAssets.card,
+        ),
+        TakeImage(
+          image: _image1,
+          onPressed: () {
+            args.loyltiCard.backCardUrl = "";
+            setState(() {
+              isFrnotSide = false;
+            });
+            _showSelectPhotoOptions(context);
+          },
+          title: "Card back",
+          enabled: _isEnable,
+          url: args.loyltiCard.backCardUrl!,
+          defultimg: ImageAssets.backcard,
+        ),
+      ],
+    );
   }
 
   Widget _formdetails() {
@@ -310,7 +311,7 @@ class _NewloylticardState extends State<Newloylticard> {
               key: _cardFormKey,
               child: Column(children: [
                 CustomFormField(
-                  enabled: _isenable,
+                  enabled: _isEnable,
                   hintext: "Card Number",
                   label: "Card Number",
                   controller: _cardnocontroller,
@@ -325,7 +326,7 @@ class _NewloylticardState extends State<Newloylticard> {
                   },
                 ),
                 CustomFormField(
-                  enabled: _isenable,
+                  enabled: _isEnable,
                   hintext: "Program name",
                   label: "Program name",
                   controller: _cardnamecontroller,
@@ -335,7 +336,7 @@ class _NewloylticardState extends State<Newloylticard> {
                   height: Dimensions.height15,
                 ),
                 CustomFormField(
-                  enabled: _isenable,
+                  enabled: _isEnable,
                   hintext: "Website url",
                   label: "Website Url",
                   controller: _websiteurlcontroller,
@@ -354,13 +355,11 @@ class _NewloylticardState extends State<Newloylticard> {
   }
 
   Widget _notes() {
-    
-
     return Container(
       child: TextFormField(
         controller: _notescontroller,
         validator: notesValidator,
-        enabled: _isenable,
+        enabled: _isEnable,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         maxLines: 2,
         autofocus: true,
@@ -394,7 +393,7 @@ class _NewloylticardState extends State<Newloylticard> {
     );
   }
 
-  Widget _saveButton() {
+  Widget _saveButton(args) {
     return _isLoading
         ? CircularProgressIndicator(
             color: ColorManager.green,
@@ -403,7 +402,7 @@ class _NewloylticardState extends State<Newloylticard> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onPressed: () {
-              _submitForm();
+              _submitForm(args);
             },
             minWidth: Dimensions.width353,
             height: Dimensions.height50,
@@ -439,7 +438,7 @@ class _NewloylticardState extends State<Newloylticard> {
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
           hintText: "Select vendor",
-          enabled: _isenable,
+          enabled: _isEnable,
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
                 10,

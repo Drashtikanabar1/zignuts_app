@@ -13,7 +13,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
+  static const String id = 'LoginScreen';
   @override
   State<LoginScreen> createState() => _loginscreenState();
 }
@@ -117,9 +117,9 @@ class _loginscreenState extends State<LoginScreen> {
                     _emailcontroller.text.toString(),
                     _passwordcontroller.text.toString());
                 if (user != null) {
-                  Navigator.pushReplacement(
+                  Navigator.pushReplacementNamed(
                     context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
+                   HomePage.id,
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -143,8 +143,8 @@ class _loginscreenState extends State<LoginScreen> {
           child: Text(StringManager.Forgotpassword,
               style: TextStyle(color: Colors.grey.shade700)),
           onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => ResetPasswordScreen()),
+            Navigator.pushNamed(
+             context,ResetPasswordScreen.id,
             );
           }),
     );
@@ -168,9 +168,9 @@ class _loginscreenState extends State<LoginScreen> {
           Container(
             padding: EdgeInsets.only(left: Dimensions.width8),
             child: GestureDetector(
-              onTap: () => Navigator.pushReplacement(
+              onTap: () => Navigator.pushReplacementNamed(
                 context,
-                MaterialPageRoute(builder: (context) => const RegisterScreen()),
+              RegisterScreen.id,
               ),
               child: RichText(
                 text: TextSpan(

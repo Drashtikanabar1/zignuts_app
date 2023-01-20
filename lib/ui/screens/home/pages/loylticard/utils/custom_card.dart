@@ -3,7 +3,8 @@ import 'package:firstapp/model/loylti_card.dart';
 import 'package:firstapp/resources/style_manager.dart';
 import 'package:firstapp/ui/dialogs/dilogbox.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/card_description.dart';
-import 'package:firstapp/ui/screens/home/pages/loylticard/new_card.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/add_card.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/utils/addLoyltiCard_aregument.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -29,10 +30,9 @@ class _CustomCardState extends State<CustomCard> {
         Center(
           child: GestureDetector(
             onTap: () {
-              Navigator.push(
+              Navigator.pushNamed(
                   context,
-                  MaterialPageRoute(
-                      builder: ((context) => Detailscard(title: widget.title))));
+                 Detailscard.id,arguments: AddloylticardArguments(loyltiCard: LoyltiCard(name: widget.title)));
             },
             child: Column(
               children: [
@@ -79,14 +79,10 @@ class _CustomCardState extends State<CustomCard> {
             child: PopupMenuButton(
               onSelected: (value) {
                 if (value == 1) {
-                  Navigator.push(
+                  Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => Newloylticard(
-                          editenable: true,
-                          loyltiCard: widget.loyltiCard,
-                        ),
-                      ));
+                      Addloylticard.id,arguments:AddloylticardArguments( editEnable: true,
+                          loyltiCard: widget.loyltiCard,) );
                 } else if (value == 2) {
                   showDialog(
                       context: context,

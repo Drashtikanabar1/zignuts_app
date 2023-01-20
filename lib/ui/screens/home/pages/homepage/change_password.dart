@@ -10,7 +10,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
-
+ static const String id = 'ChangePassword';
   @override
   State<ChangePassword> createState() => _ChangePasswordState();
 }
@@ -144,10 +144,10 @@ class _ChangePasswordState extends State<ChangePassword> {
 
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("passwors is change")));
-                Navigator.push(
+                Navigator.pushNamed(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const ChangePassword()),
+     
+              ChangePassword.id,
                 );
               }
             }),

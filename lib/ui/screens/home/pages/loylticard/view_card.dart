@@ -4,10 +4,10 @@ import 'package:firstapp/Authentication/auth_database.dart';
 import 'package:firstapp/model/loylti_card.dart';
 import 'package:firstapp/resources/style_manager.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/card_description.dart';
-import 'package:firstapp/ui/screens/home/pages/loylticard/new_card.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/add_card.dart';
 import 'package:firstapp/resources/colors_manager.dart';
-import 'package:firstapp/ui/screens/home/pages/loylticard/utilies/custom_card.dart';
-import 'package:firstapp/ui/screens/home/pages/loylticard/utilies/empty_card.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/utils/custom_card.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/utils/empty_card.dart';
 import 'package:firstapp/user_preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ import '../../../../dialogs/dilogbox.dart';
 
 class Cardgridview extends StatefulWidget {
   const Cardgridview({super.key});
-
+  static const String id = 'Cardgridview';
   @override
   State<Cardgridview> createState() => _CardgridviewState();
 }
@@ -72,7 +72,10 @@ class _CardgridviewState extends State<Cardgridview> {
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
-              if (snapshot.data!.docs.length == 0) {
+              // if(snapshot.hasError == ConnectionState.waiting){
+              //   return Text("Loadinf");
+              // }
+              if (snapshot.data!.docs.isEmpty) {
                 return EmptyCard();
               } else {
                 return Container(

@@ -1,12 +1,13 @@
 import 'package:firstapp/resources/colors_manager.dart';
 import 'package:firstapp/resources/style_manager.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/utils/addLoyltiCard_aregument.dart';
 import 'package:flutter/material.dart';
 
 
 class Detailscard extends StatefulWidget {
-  final String title;
-  const Detailscard({super.key, required this.title});
-
+  
+  const Detailscard({super.key, });
+static const String id = 'Detailscard';
   @override
   State<Detailscard> createState() => _DetailscardState();
 }
@@ -14,7 +15,7 @@ class Detailscard extends StatefulWidget {
 class _DetailscardState extends State<Detailscard> {
   @override
   Widget build(BuildContext context) {
-   
+    final args=ModalRoute.of(context)!.settings.arguments as AddloylticardArguments;
     return Scaffold(
       appBar: AppBar(
         leadingWidth: Dimensions.width27,
@@ -29,17 +30,17 @@ class _DetailscardState extends State<Detailscard> {
       body: SingleChildScrollView(
           child: Column(
         children: [
-          _customcard(widget.title),
+          _customcard(args),
           SizedBox(
             height:Dimensions.height23,
           ),
-          _details(widget.title),
+          _details(args),
         ],
       )),
     );
   }
 
-  Widget _customcard(String title) {
+  Widget _customcard(args) {
     return Stack(
       children: [
         Column(
@@ -69,7 +70,7 @@ class _DetailscardState extends State<Detailscard> {
                             radius: 50,
                             backgroundColor: ColorManager.circleavtarcolour,
                             child: Text(
-                              title.substring(0,1).toUpperCase(),
+                             args.loyltiCard.name.substring(0,1).toUpperCase(),
                               style: TextStyle(
                                   fontSize: 41, color: ColorManager.white),
                             ),
@@ -78,7 +79,7 @@ class _DetailscardState extends State<Detailscard> {
                       ),
                       Container(
                         padding: EdgeInsets.only(top: Dimensions.height20),
-                        child: Text(title),
+                        child: Text(args.loyltiCard.name),
                       ),
                     ],
                   ),
@@ -99,7 +100,7 @@ class _DetailscardState extends State<Detailscard> {
     );
   }
 
-  Widget _details(String title) {
+  Widget _details(args) {
     return Padding(
       padding: EdgeInsets.only(left:Dimensions.width20,right:Dimensions.width20),
       child: SizedBox(
@@ -121,7 +122,7 @@ class _DetailscardState extends State<Detailscard> {
             Container(
               padding: EdgeInsets.only(top:Dimensions.height23),
               child:  Row(
-              children: [Icon(Icons.alarm_rounded), Text(title)],
+              children: [Icon(Icons.alarm_rounded), Text(args.loyltiCard.name)],
               ),
            
             ),

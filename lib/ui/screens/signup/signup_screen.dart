@@ -1,10 +1,11 @@
 import 'package:colours/colours.dart';
+import 'package:firstapp/authentication/auth_database.dart';
 import 'package:firstapp/coman_widget/buildinputdesign.dart';
 import 'package:firstapp/coman_widget/comoan_text.dart';
 import 'package:firstapp/coman_widget/custom_button.dart';
 import 'package:firstapp/resources/style_manager.dart';
 import 'package:firstapp/ui/screens/home/pages/homepage/homepage.dart';
-import 'package:firstapp/Authentication/auth_database.dart';
+
 import 'package:firstapp/resources/colors_manager.dart';
 import 'package:firstapp/resources/string_manager.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ import '../login/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
-
+ static const String id = 'RegisterScreen';
   @override
   State<RegisterScreen> createState() => _SignuppageState();
 }
@@ -121,17 +122,15 @@ class _SignuppageState extends State<RegisterScreen> {
           );
           if (user != null) {
             if (user == "sucess") {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
-              );
+              Navigator.pushReplacementNamed(
+                context,HomePage.id);
             } else {
               print(user.toString());
             }
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(StringManager.emailisalredylogin),
+               SnackBar(
+                content: Text(user.toString()),
               ),
             );
           }
@@ -155,9 +154,9 @@ class _SignuppageState extends State<RegisterScreen> {
           ),
         ),
          GestureDetector(
-          onTap: () => Navigator.pushReplacement(
+          onTap: () => Navigator.pushReplacementNamed(
             context,
-            MaterialPageRoute(builder: (context) => const LoginScreen()),
+            LoginScreen.id,
           ),
           child: RichText(
             text: TextSpan(

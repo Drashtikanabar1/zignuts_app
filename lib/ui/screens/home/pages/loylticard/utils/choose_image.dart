@@ -4,7 +4,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:firstapp/model/loylti_card.dart';
 
 import 'package:firstapp/resources/colors_manager.dart';
-import 'package:firstapp/ui/screens/home/pages/loylticard/utilies/select_photo_option.dart';
+import 'package:firstapp/ui/screens/home/pages/loylticard/utils/select_photo_option.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

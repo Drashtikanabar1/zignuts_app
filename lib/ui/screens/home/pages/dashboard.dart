@@ -2,9 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/resources/string_manager.dart';
 import 'package:firstapp/ui/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
 import '../../../../authentication/auth_database.dart';
 import '../../../dialogs/dilogbox.dart';
 import 'homepage/change_password.dart';
@@ -95,9 +92,9 @@ class _DashboardState extends State<Dashboard> {
               leading: const Icon(Icons.edit),
               title: const Text(StringManager.changePassword),
               onTap: () {
-                Navigator.push(
+                Navigator.pushNamed(
                   context,
-                  MaterialPageRoute(builder: (context) => const ChangePassword()),
+                 ChangePassword.id,
                 );
               },
             ),
@@ -112,7 +109,7 @@ class _DashboardState extends State<Dashboard> {
                      await _auth.sigOut();
                    }
                    
-                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: ((context) => LoginScreen())), (route) => false);
+                     Navigator.pushNamedAndRemoveUntil(context, LoginScreen.id,(route) => false,);
               
                 },)));
               } ,

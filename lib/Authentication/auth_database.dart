@@ -27,20 +27,23 @@ class Auth{
     
     
   }on FirebaseAuthException catch (e) {
-            if (e.code == 'email-already-use-in') {
+    if (e.code == 'email-already-use-in') {
     return'No user found for that email.';
   } else if (e.code == 'wrong-password') {
     print('Wrong password provided for that user.');
-  }
-          } 
+  }else if(e.code=='network-request-failed'){
+       print("no conecetion");
+  }else  if (e.code == 'weak-password') {
+              print("No user found for that email");
+          } }
   catch(e){
     print(e.toString());
      
   }
     
-  
-     
   }
+     
+  
   
 
 Future <User?> signInWithEmailAndPassword(String email, String password) async {
@@ -57,6 +60,8 @@ Future <User?> signInWithEmailAndPassword(String email, String password) async {
               print("No user found for that email");
             } else if (e.code == 'wrong-password') {
                print("Wrong password provided for that user. ");
+            }else if(e.code=='network-request-failed'){
+               print("no conecetion");
             }
           } 
   catch(e){
