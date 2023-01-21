@@ -2,15 +2,21 @@
 
 
 import 'package:firstapp/model/app_user.dart';
+import 'package:firstapp/user_preferences/global_variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 const String id = "id";
 const String name = "name";
 const String email = "email";
-
+const String userTokenPref = "userToken";
 const String isLoggedInPref = "isLoggedIn";
+const String selectedLocaleLanguageCodePref = "selectedLocaleLanguageCode";
 
 
 class UserPreferences{
+  static Future<String> getUserToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(userTokenPref) ?? "";
+  }
    static Future<String> getUserId() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(id) ?? "";
@@ -52,7 +58,17 @@ class UserPreferences{
     await prefs.setString(name, user.name!);
     await prefs.setString(email, user.email!);
   }
-
+   static Future<void> setLocaleLanguageCode(
+      {required String languageCode}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(selectedLocaleLanguageCodePref, languageCode);
+    GlobalVariables.languageCode = languageCode;
+  }
+     static Future<String> getLocaleLanguageCode() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(selectedLocaleLanguageCodePref) ??
+        LanguageCode.languageCodeEnglish;
+  }
     static Future<Appuser> getLoginUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? uId = await prefs.getString(id);
@@ -62,5 +78,6 @@ class UserPreferences{
    
    
     return user;
+    
   }
 }

@@ -1,6 +1,7 @@
 import 'package:firstapp/coman_widget/buildinputdesign.dart';
 import 'package:firstapp/coman_widget/comoan_text.dart';
 import 'package:firstapp/coman_widget/custom_button.dart';
+import 'package:firstapp/l10n/localization.dart';
 import 'package:firstapp/resources/string_manager.dart';
 import 'package:firstapp/resources/style_manager.dart';
 import 'package:firstapp/ui/screens/home/pages/homepage/homepage.dart';
@@ -51,7 +52,9 @@ class _loginscreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     CommonText(
-                        title:StringManager.welcome, subtitle:StringManager.loginsubtitle),
+                        title:AppLocalizations.of(context)!.welcome,
+                          subtitle:AppLocalizations.of(context)!.loginsubtitle,
+                         ),
                     SizedBox(
                       height: Dimensions.height70,
                     ),
@@ -88,13 +91,13 @@ class _loginscreenState extends State<LoginScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           BuildInputBox(
-              hintext:StringManager.emaillhintext,
+               hintext:AppLocalizations.of(context)!.email,
               label:StringManager.emaillable,
               controller: _emailcontroller,
               validate: emailValidator),
           SizedBox(height: Dimensions.height23),
           BuildInputBox(
-              hintext:StringManager.passwordhintext,
+              hintext:AppLocalizations.of(context)!.password,
               label:StringManager.passwordlable,
               controller: _passwordcontroller,
               validate: passValidator)
@@ -107,7 +110,7 @@ class _loginscreenState extends State<LoginScreen> {
     return showSpinner
         ? CircularProgressIndicator()
         : CustomButton(
-            text:StringManager.loginbutton,
+            text:AppLocalizations.of(context)!.login,
             onPressed: () async {
               if (_loginFormKey.currentState!.validate()) {
                 setState(() {

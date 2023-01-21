@@ -1,0 +1,10 @@
+{
+  "appName": "Buzo",
+  "login": "Login",
+  "welcome": "Welcome!",
+  "email":"Email",
+  "password":"Passsword",
+  "loginsubtitle":"Sign in and get started",
+  "saveLanguage": "Save Language",
+  "selectLanguage": "Select Language"
+}

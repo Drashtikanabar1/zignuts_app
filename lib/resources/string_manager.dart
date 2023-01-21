@@ -1,6 +1,9 @@
 import 'package:firstapp/ui/screens/login/login_screen.dart';
 
 class StringManager{
+
+  static const String internalServerError = 'Internal Server error. Please try later';
+  static const String internetConnectionError = 'Please check your internet connection.';
    //dashboard cpntent
   static const String homecontent="inside the Homescreen";
    static const String vendorcontent="inside the vendorcreen";

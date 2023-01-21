@@ -4,8 +4,6 @@ import 'package:firstapp/ui/screens/home/pages/loylticard/add_card.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/utils/addLoyltiCard_aregument.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../../../../../../resources/colors_manager.dart';
 import '../../../../../../resources/style_manager.dart';
@@ -20,7 +18,8 @@ class EmptyCard extends StatefulWidget {
 class _EmptyCardState extends State<EmptyCard> {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Padding(
+      padding: EdgeInsets.only(left: Dimensions.width20),
       child: GestureDetector(
         onTap: () {
           Navigator.pushNamed(

@@ -1,0 +1,10 @@
+{
+  "appName": "بوزو",
+  "login": "تسجيل الدخول",
+  "welcome": "أهلا بك",
+  "email":"بريد إلكتروني",
+  "password":"كلمة المرور",
+  "loginsubtitle":"سجل الدخول وابدأ",
+  "saveLanguage": "حفظ اللغة",
+  "selectLanguage": "اختار اللغة"
+}

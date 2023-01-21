@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/resources/string_manager.dart';
+import 'package:firstapp/ui/screens/home/pages/changelanguage_screen.dart';
 import 'package:firstapp/ui/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../../authentication/auth_database.dart';
@@ -83,9 +84,9 @@ class _DashboardState extends State<Dashboard> {
             ),
             ListTile(
               leading: const Icon(Icons.video_label),
-              title: const Text(' Household  '),
+              title: const Text('Change Language'),
               onTap: () {
-                Navigator.pop(context);
+              Navigator.pushNamed(context, LanguageScreen.id);
               },
             ),
             ListTile(

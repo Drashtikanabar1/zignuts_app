@@ -1,6 +1,7 @@
 
 
 
+import 'package:firstapp/ui/screens/home/pages/changelanguage_screen.dart';
 import 'package:firstapp/ui/screens/home/pages/homepage/change_password.dart';
 import 'package:firstapp/ui/screens/home/pages/homepage/homepage.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/add_card.dart';
@@ -23,4 +24,6 @@ final Map<String, WidgetBuilder> routes = {
   Cardgridview.id:(context) => const Cardgridview(),
   Addloylticard.id:(context) =>  Addloylticard(),
   Detailscard.id :(context) => Detailscard(),
+  LanguageScreen.id:((context) => LanguageScreen()),
+
 };
