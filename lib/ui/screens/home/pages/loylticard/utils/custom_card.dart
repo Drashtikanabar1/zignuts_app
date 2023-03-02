@@ -6,9 +6,6 @@ import 'package:firstapp/ui/screens/home/pages/loylticard/card_description.dart'
 import 'package:firstapp/ui/screens/home/pages/loylticard/add_card.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/utils/addLoyltiCard_aregument.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
 import '../../../../../../authentication/auth_database.dart';
 import '../../../../../../resources/colors_manager.dart';
 
@@ -50,7 +47,7 @@ class _CustomCardState extends State<CustomCard> {
                         color: ColorManager.cardcolour,
                       ),
                     ),
-                    child: Container(
+                    child: SizedBox(
                         height: Dimensions.height55,
                         width: Dimensions.width55,
                         child: Center(
@@ -102,11 +99,11 @@ class _CustomCardState extends State<CustomCard> {
                 }
               },
               itemBuilder: ((context) => [
-                    PopupMenuItem(
+                    const PopupMenuItem(
                       value: 1,
                       child: Text("Edit"),
                     ),
-                    PopupMenuItem(value: 2, child: Text("Delete")),
+                    const PopupMenuItem(value: 2, child: Text("Delete")),
                   ]),
             ),
           ),

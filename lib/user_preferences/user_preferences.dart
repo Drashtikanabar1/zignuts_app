@@ -11,6 +11,8 @@ const String userTokenPref = "userToken";
 const String isLoggedInPref = "isLoggedIn";
 const String selectedLocaleLanguageCodePref = "selectedLocaleLanguageCode";
 
+ const THEME_KEY = "theme_key";
+
 
 class UserPreferences{
   static Future<String> getUserToken() async {
@@ -43,9 +45,9 @@ class UserPreferences{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(id, name);
   }
-  static Future<void> setUserEmail({required String Email}) async {
+  static Future<void> setUserEmail({required String email}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(id, Email);
+    await prefs.setString(id, email);
   }
    static Future<void> setUserLoggedIn({required bool hasLoggedIn}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -69,11 +71,20 @@ class UserPreferences{
     return prefs.getString(selectedLocaleLanguageCodePref) ??
         LanguageCode.languageCodeEnglish;
   }
+             
+  getTheme() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getBool(THEME_KEY) ?? false;
+  }
+    setTheme(bool value) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getBool(THEME_KEY) ?? false;
+  }
     static Future<Appuser> getLoginUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? uId = await prefs.getString(id);
-    String? uName = await prefs.getString(name);
-    String? uEmail = await prefs.getString(email);
+    String? uId =  prefs.getString(id);
+    String? uName = prefs.getString(name);
+    String? uEmail =  prefs.getString(email);
     Appuser user = Appuser(id:uId,name: uName,email:uEmail);
    
    

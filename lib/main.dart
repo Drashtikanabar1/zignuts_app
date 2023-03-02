@@ -2,9 +2,12 @@ import 'package:firstapp/Authentication/goole_sign_in.dart';
 import 'package:firstapp/bloc/network_cubit.dart';
 import 'package:firstapp/bloc/network_services.dart';
 import 'package:firstapp/controller/locale_provider.dart';
+import 'package:firstapp/controller/model_theme.dart';
 import 'package:firstapp/controller/random_provider.dart';
 import 'package:firstapp/l10n/localization.dart';
 import 'package:firstapp/resources/route_manager.dart';
+import 'package:firstapp/ui/screens/splash/dropdown.dart';
+import 'package:firstapp/ui/screens/splash/mixpanle.dart';
 import 'package:firstapp/ui/screens/splash/splach_screen.dart';
 import 'package:firstapp/user_preferences/user_preferences.dart';
 
@@ -21,7 +24,7 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -45,49 +48,58 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
     var networkService = NetworkService();
     return MultiBlocProvider(
-      providers: [
-        BlocProvider<NetworkCubit>(
-          create: (context) =>
-              NetworkCubit(networkService: networkService, context: context),
-        ),
-      ],
-    child:MultiProvider (
-      providers: [
-            ChangeNotifierProvider<RandomProvider>(create: (_) => RandomProvider()),
+        providers: [
+          BlocProvider<NetworkCubit>(
+            create: (context) =>
+                NetworkCubit(networkService: networkService, context: context),
+          ),
+        ],
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider<RandomProvider>(
+                create: (_) => RandomProvider()),
+            ChangeNotifierProvider<ModelTheme>(create: (_) => ModelTheme()),
           ],
-      child: prov.ChangeNotifierProvider(
-          create: (_) => LocaleProvider(),
-          child: prov.Consumer<LocaleProvider>(
-            builder: (context, model, child) {
-              return ScreenUtilInit(
-                minTextAdapt: false,
-                builder: (BuildContext context, Widget? child) {
-                  return GetMaterialApp(
-                    debugShowCheckedModeBanner: false,
-                    onGenerateTitle: (context) =>
-                        AppLocalizations.of(context)!.appName,
-                    theme: ThemeData(
-                      primarySwatch: Colors.blue,
-                    ),
-                    locale: model.locale ?? locale,
-                    localizationsDelegates: const [
-                      AppLocalizations.delegate,
-                      GlobalMaterialLocalizations.delegate,
-                      GlobalCupertinoLocalizations.delegate,
-                      GlobalWidgetsLocalizations.delegate,
-                    ],
-                    supportedLocales: L10n.all,
-                    home: SplashScreen(),
-                    routes: routes,
-                  );
-                },
-              );
-            },
-          ),),
-    )
-        );
+          child: prov.ChangeNotifierProvider(
+            create: (_) => ModelTheme(),
+            child: prov.Consumer<ModelTheme>(
+              builder: ((context, ModelTheme themeNotifier, child) {
+                return prov.ChangeNotifierProvider(
+                  create: (_) => LocaleProvider(),
+                  child: prov.Consumer<LocaleProvider>(
+                    builder: (context, model, child) {
+                      return ScreenUtilInit(
+                        minTextAdapt: false,
+                        builder: (BuildContext context, Widget? child) {
+                          return MaterialApp(
+                            debugShowCheckedModeBanner: false,
+                            onGenerateTitle: (context) =>
+                                AppLocalizations.of(context)!.appName,
+                            theme: themeNotifier.isDark
+                                ? ThemeData.dark()
+                                : ThemeData.light(),
+                            locale: model.locale ?? locale,
+                            localizationsDelegates: const [
+                              AppLocalizations.delegate,
+                              GlobalMaterialLocalizations.delegate,
+                              GlobalCupertinoLocalizations.delegate,
+                              GlobalWidgetsLocalizations.delegate,
+                            ],
+                            supportedLocales: L10n.all,
+                            // initialRoute: SplashScreen.id,
+                            home: MyHomePage(),
+                            routes: routes,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                );
+              }),
+            ),
+          ),
+        ));
   }
 }

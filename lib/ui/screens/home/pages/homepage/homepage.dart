@@ -1,17 +1,14 @@
-// ignore_for_file: prefer_final_fields, prefer_const_constructors
-
-import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
 import 'package:firstapp/bloc/network_cubit.dart';
 import 'package:firstapp/controller/random_provider.dart';
 import 'package:firstapp/response/customer_randomuser.dart';
+import 'package:firstapp/ui/screens/home/pages/articles/article_screen.dart';
 import 'package:firstapp/ui/screens/home/pages/categories/categories_screen.dart';
 import 'package:firstapp/ui/screens/home/pages/dashboard.dart';
 import 'package:firstapp/resources/colors_manager.dart';
-import 'package:firstapp/resources/string_manager.dart';
-
+import 'package:firstapp/ui/screens/home/pages/userdetails/list.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/view_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +40,7 @@ setState(() {
   final Auth _auth = Auth();
   int _currentindex = 1;
 
-  User? currentUser = null;
+  User? currentUser;
 
   @override
   void initState() {
@@ -52,12 +49,12 @@ setState(() {
     super.initState();
   }
 
-   List<Widget> _widgetList = [
-    Dashboard(),
-    Center(child: Text(StringManager.listcontent)),
-    Center(child: Text("")),
-    Categories(),
-    Cardgridview(),
+   final List<Widget> _widgetList = [
+    const Dashboard(),
+    const ListScreen(),
+    const ArticleScreen(),
+    const Categories(),
+    const Cardgridview(),
   ];
 
   void _onItemTapped(int index) {
@@ -77,46 +74,31 @@ randomuser();
 
     return Scaffold(
     
-      body: 
-       
-         Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            
-             Container(child: Text("${user?.name?.title ?? ""} ${user?.name?.first ?? ""} ${user?.name?.last ?? ""}")),
-             Container(child: Text("${user?.gender}"),),
-             Container(child: Text("${user?.dob?.age}"),),
-             Container(child: Image.network("${user?.picture?.large }"),),
-             Container(child: _widgetList.elementAt(_currentindex)),
-            
-          ],
-        ),
-      
-
-      bottomNavigationBar: BottomNavigationBar(
+      body: Container(child: _widgetList.elementAt(_currentindex)),
+            bottomNavigationBar: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: const Icon(Icons.home),
               label: "Home",
               backgroundColor: ColorManager.primary,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.list),
+              icon: const Icon(Icons.list),
               label: "List",
               backgroundColor: ColorManager.primary,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: const Icon(Icons.person),
               label: "vendors",
               backgroundColor: ColorManager.primary,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.category_outlined),
+              icon: const Icon(Icons.category_outlined),
               label: "categories",
               backgroundColor: ColorManager.primary,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.more),
+              icon: const Icon(Icons.more),
               label: "More",
               backgroundColor: ColorManager.primary,
             ),

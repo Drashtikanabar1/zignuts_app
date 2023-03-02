@@ -12,6 +12,7 @@ class ImageAssets {
   static const String backcard ="$IMAGE_PATH/backcard.png";
   static const String english ="$IMAGE_PATH/backcard.png";
   static const String arabic ="$IMAGE_PATH/backcard.png";
+  static const String imageplacholder ="$IMAGE_PATH/imageplacholder.png";
 
  
  

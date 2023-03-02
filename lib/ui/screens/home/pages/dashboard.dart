@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firstapp/resources/string_manager.dart';
+import 'package:firstapp/ui/screens/home/pages/change_theme.dart';
 import 'package:firstapp/ui/screens/home/pages/changelanguage_screen.dart';
 import 'package:firstapp/ui/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(
-        title: Text(" "),
+        title: const Text(" "),
         backgroundColor: Colors.green,
       ),
       body:const Center(
@@ -41,22 +42,22 @@ class _DashboardState extends State<Dashboard> {
           padding: const EdgeInsets.all(0),
           children: [
              DrawerHeader(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.green,
               ), //BoxDecoration
               child: UserAccountsDrawerHeader(
-                decoration: BoxDecoration(color: Colors.green),
+                decoration: const BoxDecoration(color: Colors.green),
                 accountName: Text(
                   currentUser!.displayName ?? StringManager.notfond,
-                  style: TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 18),
                 ),
                 accountEmail: Text(currentUser!.email ?? StringManager.notfond),
-                currentAccountPictureSize: Size.square(50),
+                currentAccountPictureSize: const Size.square(50),
                 currentAccountPicture: CircleAvatar(
-                  backgroundColor: Color.fromARGB(255, 165, 255, 137),
+                  backgroundColor: const Color.fromARGB(255, 165, 255, 137),
                   child: Text(
                     currentUser!.displayName!.substring(0,1).toUpperCase(),
-                    style: TextStyle(fontSize: 30.0, color: Colors.blue),
+                    style: const TextStyle(fontSize: 30.0, color: Colors.blue),
                   ), //Text
                 ), //circleAvatar
               ), //UserAccountDrawerHeader
@@ -72,7 +73,7 @@ class _DashboardState extends State<Dashboard> {
               leading: const Icon(Icons.book),
               title: const Text('Addressses '),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ChangeTheme(),));
               },
             ),
             ListTile(

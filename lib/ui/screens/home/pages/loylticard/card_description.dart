@@ -109,20 +109,20 @@ class _DetailscardState extends State<Detailscard> {
         child: Column(
           children: [
             Center(
-              child: Container(
+              child: SizedBox(
                width: Dimensions.screenWidth,
-                  child: Text("Lorem Ipsum"),
+                  child: const Text("Lorem Ipsum"),
               ),
             ),
             Container(
               width: Dimensions.screenWidth,
               padding: EdgeInsets.only(top: Dimensions.height2),
-              child:    Text("Member ID : JC65456465464"),
+              child:    const Text("Member ID : JC65456465464"),
             ),
             Container(
               padding: EdgeInsets.only(top:Dimensions.height23),
               child:  Row(
-              children: [Icon(Icons.alarm_rounded), Text(args.loyltiCard.name)],
+              children: [const Icon(Icons.alarm_rounded), Text(args.loyltiCard.name)],
               ),
            
             ),

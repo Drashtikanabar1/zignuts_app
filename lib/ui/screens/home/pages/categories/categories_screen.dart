@@ -15,10 +15,10 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
+  
   bool isFavoriteCategory = true;
   bool islistview = true;
-  late String _dropDownValue;
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
   var list = ["vendor 1", "vendor 2", "vendor 3", "vendor 4", "vendor 5"];
   List categorieslist = [
     "Home &kitchen",
@@ -45,7 +45,7 @@ class _CategoriesState extends State<Categories> {
       appBar: AppBar(
         leading: Padding(
           padding: EdgeInsets.only(left: Dimensions.width8),
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back,
           ),
         ),
@@ -76,7 +76,7 @@ class _CategoriesState extends State<Categories> {
 
             islistview
                 ? _listWidget(h, w)
-                : SingleChildScrollView(child: Gridview()),
+                : const SingleChildScrollView(child: Gridview()),
             //_imageview(h, w)
           ],
         ),
@@ -104,7 +104,7 @@ class _CategoriesState extends State<Categories> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(15),
                         bottomLeft: Radius.circular(15)),
                     color: isFavoriteCategory
@@ -135,7 +135,7 @@ class _CategoriesState extends State<Categories> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(15),
                         bottomRight: Radius.circular(15)),
                     color: isFavoriteCategory
@@ -229,7 +229,6 @@ class _CategoriesState extends State<Categories> {
             ),
             onChanged: (newValue) {
               setState(() {
-                _dropDownValue = newValue!;
               });
             }),
       ),
@@ -245,10 +244,10 @@ class _CategoriesState extends State<Categories> {
           height: 23,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text("Home and kitchen"),
-              Icon(Icons.discount_outlined),
-              Icon(Icons.favorite_border_outlined),
+            children:const [
+               Text("Home and kitchen"),
+               Icon(Icons.discount_outlined),
+             Icon(Icons.favorite_border_outlined),
             ],
           ),
         )
@@ -257,40 +256,38 @@ class _CategoriesState extends State<Categories> {
   }
 
   Widget _listWidget(double h, double w) {
-    return Container(
-      child: ListView.builder(
-          controller: _controller,
-          shrinkWrap: true,
-          itemCount: categorieslist.length,
-          itemBuilder: (context, index) {
-            if (index == 4) {
-              return _ads();
-            } else {
-              return Padding(
-                padding: EdgeInsets.only(top: w * 0.02),
-                child: ListTile(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                    title: CustomImage(
-                      name: categorieslist[index],
-                      image: ImageAssets.fruits,
-                    )),
-              );
-            }
-          }),
-    );
+    return ListView.builder(
+        controller: _controller,
+        shrinkWrap: true,
+        itemCount: categorieslist.length,
+        itemBuilder: (context, index) {
+          if (index == 4) {
+            return _ads();
+          } else {
+            return Padding(
+              padding: EdgeInsets.only(top: w * 0.02),
+              child: ListTile(
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  title: CustomImage(
+                    name: categorieslist[index],
+                    image: ImageAssets.fruits,
+                  )),
+            );
+          }
+        });
   }
 
   Widget _ads() {
-    return Container(
+    return SizedBox(
       height: 185,
       width: 375,
       child: CarouselSlider.builder(
         itemCount: images.length,
         options: CarouselOptions(viewportFraction: 1, autoPlay: true),
         itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
-            Container(
+            SizedBox(
                 width: 392.72,
                 child: Image.asset(
                   images[itemIndex],

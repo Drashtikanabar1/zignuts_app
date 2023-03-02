@@ -1,4 +1,7 @@
+// ignore_for_file: constant_identifier_names
+
 class ServerStatusCodes {
+
   static const int SUCESS = 200;
   static const int INTERNAL_SERVER_ERROR = 500;
   static const int UNAUTHORISED = 401;

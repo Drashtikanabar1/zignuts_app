@@ -26,7 +26,7 @@ class _CustomButtonState extends State<CustomButton> {
       color: ColorManager.primary,
       child:  Text(
         widget.text,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontSize: 25,
         ),

@@ -1,17 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:firstapp/Authentication/auth_database.dart';
 import 'package:firstapp/model/loylti_card.dart';
 import 'package:firstapp/resources/style_manager.dart';
-import 'package:firstapp/ui/screens/home/pages/loylticard/card_description.dart';
-import 'package:firstapp/ui/screens/home/pages/loylticard/add_card.dart';
 import 'package:firstapp/resources/colors_manager.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/utils/custom_card.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/utils/empty_card.dart';
-import 'package:firstapp/user_preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../dialogs/dilogbox.dart';
 
 class Cardgridview extends StatefulWidget {
   const Cardgridview({super.key});
@@ -22,7 +16,7 @@ class Cardgridview extends StatefulWidget {
 
 class _CardgridviewState extends State<Cardgridview> {
   final Auth _auth = Auth();
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,9 +70,9 @@ class _CardgridviewState extends State<Cardgridview> {
               //   return Text("Loadinf");
               // }
               if (snapshot.data!.docs.isEmpty) {
-                return EmptyCard();
+                return const EmptyCard();
               } else {
-                return Container(
+                return SizedBox(
                   height: Dimensions.screenHeight,
                   child: GridView.builder(
                     controller: _controller,
@@ -91,7 +85,7 @@ class _CardgridviewState extends State<Cardgridview> {
                     ),
                     itemBuilder: (BuildContext context, int index) {
                       if (index == snapshot.data!.docs.length) {
-                        return EmptyCard();
+                        return const EmptyCard();
                       } else {
                         DocumentSnapshot doc =
                             snapshot.data!.docs.elementAt(index);
@@ -99,7 +93,7 @@ class _CardgridviewState extends State<Cardgridview> {
                         return CustomCard(
                          loyltiCard: LoyltiCard(
                             backCardUrl: doc["backcardurl"],
-                            cardName: doc["cardame"],
+                            cardNo: doc["cardame"],
                             vendor: doc["vendor"],
                             frontCardUrl: doc["frontcardurl"],
                             name: doc["name"],
@@ -115,7 +109,7 @@ class _CardgridviewState extends State<Cardgridview> {
                 );
               }
             } else {
-              return (EmptyCard());
+              return (const EmptyCard());
             }
           }),
     );

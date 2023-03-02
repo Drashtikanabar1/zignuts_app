@@ -16,6 +16,7 @@ import '../ui/screens/login/login_screen.dart';
 
 final Map<String, WidgetBuilder> routes = {
   
+  SplashScreen.id:(context) => const SplashScreen(),
   LoginScreen.id: (context) => const LoginScreen(),
   RegisterScreen.id:(context) => const RegisterScreen(),
   HomePage.id:(context) => const HomePage(),

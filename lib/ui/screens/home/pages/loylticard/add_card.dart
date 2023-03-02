@@ -1,9 +1,8 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:firstapp/authentication/auth_database.dart';
-import 'package:firstapp/model/loylti_card.dart';
 import 'package:firstapp/resources/style_manager.dart';
+import 'package:firstapp/resources/validatot_manager.dart';
 import 'package:firstapp/services/save_database.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/utils/addLoyltiCard_aregument.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/utils/custom_form.dart';
@@ -11,27 +10,21 @@ import 'package:firstapp/ui/screens/home/pages/loylticard/utils/choose_image.dar
 import 'package:firstapp/ui/screens/home/pages/loylticard/utils/select_photo_option.dart';
 import 'package:firstapp/resources/assets_manager.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/view_card.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:form_field_validator/form_field_validator.dart';
-
 import 'package:image_picker/image_picker.dart';
-
 import '../../../../../resources/colors_manager.dart';
 
 class Addloylticard extends StatefulWidget {
-
-  Addloylticard({super.key, });
+  const Addloylticard({
+    super.key,
+  });
   static const String id = 'AddLoylticard';
   @override
   State<Addloylticard> createState() => _AddloylticardState();
 }
 
 class _AddloylticardState extends State<Addloylticard> {
-
   File? _image;
   File? _image1;
   bool isFrnotSide = false;
@@ -52,18 +45,6 @@ class _AddloylticardState extends State<Addloylticard> {
   final TextEditingController _websiteurlcontroller = TextEditingController();
   final TextEditingController _notescontroller = TextEditingController();
   final StorageService _storageService = StorageService();
-  final cardnoValidator = MultiValidator([
-    RequiredValidator(errorText: "card no is required"),
-  ]);
-  final nameValidator = MultiValidator([
-    RequiredValidator(errorText: "name is requried"),
-  ]);
-  final websiteurlValidator = MultiValidator([
-    RequiredValidator(errorText: "website url is requried"),
-  ]);
-  final notesValidator = MultiValidator([
-    RequiredValidator(errorText: "notes is requried"),
-  ]);
 
   final GlobalKey<FormState> _cardFormKey = GlobalKey<FormState>();
   final Auth _auth = Auth();
@@ -101,10 +82,7 @@ class _AddloylticardState extends State<Addloylticard> {
             'frontcardurl': args.loyltiCard.frontCardUrl,
             'backcardurl': args.loyltiCard.backCardUrl,
           });
-          Navigator.pushReplacementNamed(
-            context,
-            Cardgridview.id
-          );
+         Navigator.pushReplacementNamed(context, Cardgridview.id);
         } else {
           if (_image != null && _image1 != null) {
             setState(() {
@@ -129,11 +107,11 @@ class _AddloylticardState extends State<Addloylticard> {
             });
             Navigator.pushReplacementNamed(
               context,
-             Cardgridview.id,
+              Cardgridview.id,
             );
           } else {
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("Please pick image ")));
+                .showSnackBar(const SnackBar(content: Text("Please pick image ")));
           }
         }
       } catch (error) {
@@ -199,23 +177,25 @@ class _AddloylticardState extends State<Addloylticard> {
 
   @override
   void initState() {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
-        final args =ModalRoute.of(context)!.settings.arguments as AddloylticardArguments;
-      
-    setState(() {
-      _cardnocontroller.text = args.loyltiCard.cardName!;
-      _cardnamecontroller.text = args.loyltiCard.name!;
-      _websiteurlcontroller.text = args.loyltiCard.websiteUrl!;
-      _notescontroller.text = args.loyltiCard.notes!;
-      selectedVendor = args.loyltiCard.vendor!;
-    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final args =
+          ModalRoute.of(context)!.settings.arguments as AddloylticardArguments;
+
+      setState(() {
+        _cardnocontroller.text = args.loyltiCard.cardNo!;
+        _cardnamecontroller.text = args.loyltiCard.name!;
+        _websiteurlcontroller.text = args.loyltiCard.websiteUrl!;
+        _notescontroller.text = args.loyltiCard.notes!;
+        selectedVendor = args.loyltiCard.vendor!;
       });
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final args =ModalRoute.of(context)!.settings.arguments as AddloylticardArguments;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as AddloylticardArguments;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -279,8 +259,11 @@ class _AddloylticardState extends State<Addloylticard> {
           },
           title: "Card front",
           enabled: _isEnable,
-          url:args.loyltiCard.frontCardUrl!,
+          url: args.loyltiCard.frontCardUrl!,
           defultimg: ImageAssets.card,
+        ),
+        const SizedBox(
+          width: 2,
         ),
         TakeImage(
           image: _image1,
@@ -306,48 +289,46 @@ class _AddloylticardState extends State<Addloylticard> {
           EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20),
       child: Column(
         children: [
-          Container(
-            child: Form(
-              key: _cardFormKey,
-              child: Column(children: [
-                CustomFormField(
-                  enabled: _isEnable,
-                  hintext: "Card Number",
-                  label: "Card Number",
-                  controller: _cardnocontroller,
-                  validate: cardnoValidator,
-                ),
-                selectvendor(
-                  list: vendorList,
-                  onChanged: (Value) {
-                    setState(() {
-                      selectedVendor = Value;
-                    });
-                  },
-                ),
-                CustomFormField(
-                  enabled: _isEnable,
-                  hintext: "Program name",
-                  label: "Program name",
-                  controller: _cardnamecontroller,
-                  validate: nameValidator,
-                ),
-                SizedBox(
-                  height: Dimensions.height15,
-                ),
-                CustomFormField(
-                  enabled: _isEnable,
-                  hintext: "Website url",
-                  label: "Website Url",
-                  controller: _websiteurlcontroller,
-                  validate: websiteurlValidator,
-                ),
-                SizedBox(
-                  height: Dimensions.height15,
-                ),
-                _notes(),
-              ]),
-            ),
+          Form(
+            key: _cardFormKey,
+            child: Column(children: [
+              CustomFormField(
+                enabled: _isEnable,
+                hintext: "Card Number",
+                label: "Card Number",
+                controller: _cardnocontroller,
+                validate: Validator.cardnoValidator,
+              ),
+              selectvendor(
+                list: vendorList,
+                onChanged: (value) {
+                  setState(() {
+                    selectedVendor = value;
+                  });
+                },
+              ),
+              CustomFormField(
+                enabled: _isEnable,
+                hintext: "Program name",
+                label: "Program name",
+                controller: _cardnamecontroller,
+                validate: Validator.nameValidator,
+              ),
+              SizedBox(
+                height: Dimensions.height15,
+              ),
+              CustomFormField(
+                enabled: _isEnable,
+                hintext: "Website url",
+                label: "Website Url",
+                controller: _websiteurlcontroller,
+                validate: Validator.websiteurlValidator,
+              ),
+              SizedBox(
+                height: Dimensions.height15,
+              ),
+              _notes(),
+            ]),
           ),
         ],
       ),
@@ -355,38 +336,36 @@ class _AddloylticardState extends State<Addloylticard> {
   }
 
   Widget _notes() {
-    return Container(
-      child: TextFormField(
-        controller: _notescontroller,
-        validator: notesValidator,
-        enabled: _isEnable,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        maxLines: 2,
-        autofocus: true,
-        decoration: InputDecoration(
-          label: const Text("Notes"),
-          floatingLabelStyle: TextStyle(color: ColorManager.primary),
-          hintText: "Notes",
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                10,
-              ),
-              borderSide: BorderSide(
-                color: ColorManager.grey,
-              )),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                10,
-              ),
-              borderSide: BorderSide(
-                color: ColorManager.primary,
-              )),
-          fillColor: Colors.grey.shade100,
-          filled: true,
-          border: OutlineInputBorder(
+    return TextFormField(
+      controller: _notescontroller,
+      validator: Validator.notesValidator,
+      enabled: _isEnable,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      maxLines: 2,
+      autofocus: true,
+      decoration: InputDecoration(
+        label: const Text("Notes"),
+        floatingLabelStyle: TextStyle(color: ColorManager.primary),
+        hintText: "Notes",
+        enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(
               10,
             ),
+            borderSide: BorderSide(
+              color: ColorManager.grey,
+            )),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(
+              10,
+            ),
+            borderSide: BorderSide(
+              color: ColorManager.primary,
+            )),
+        fillColor: Colors.grey.shade100,
+        filled: true,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            10,
           ),
         ),
       ),
@@ -424,12 +403,14 @@ class _AddloylticardState extends State<Addloylticard> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: DropdownButtonFormField(
-        hint: Text("select vandor"),
+        
+        hint: const Text("select vandor"),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
-          if (value == "" || list.indexOf(value) == -1) {
+          if (value == "" || !list.contains(value)) {
             return "Remaining to select vendor";
           }
+          return null;
         },
         focusNode: FocusNode(descendantsAreTraversable: true),
         style: TextStyle(color: ColorManager.grey, fontSize: 16),
@@ -466,7 +447,7 @@ class _AddloylticardState extends State<Addloylticard> {
             value: value,
             child: Text(
               value,
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
             ),
           );
         }).toList(),

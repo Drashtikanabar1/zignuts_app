@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 class RandomProvider with ChangeNotifier {
   NetworkCubit? networkCubit;
 
-  getRandomuser() async {
+   getRandomuser() async {
     http.Response? response;
     response =  await networkCubit!.networkGetRequest(APIConstants.randomURL ,Map());
        

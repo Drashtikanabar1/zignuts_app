@@ -35,7 +35,7 @@ class _GridviewState extends State<Gridview> {
    ScrollController _controller =ScrollController();
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
     
       width: 392,
       child: ListView.builder(
@@ -65,7 +65,7 @@ Widget _customgirdimage(
     String name,
   ) {
     return
-        Container(
+        SizedBox(
           height: 25,
           width:400,
           child: Row(
@@ -76,7 +76,7 @@ Widget _customgirdimage(
                 
                     Padding(
                       padding: const EdgeInsets.only(left: 20),
-                      child: Container(width: 280, child: Text(name,style: TextStyle(color: ColorManager.green,fontWeight: FontWeight.bold),)),
+                      child: SizedBox(width: 280, child: Text(name,style: TextStyle(color: ColorManager.green,fontWeight: FontWeight.bold),)),
                     ),
                
                   Row(
@@ -87,7 +87,7 @@ Widget _customgirdimage(
                         width: 18.33,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: 20),
+                        padding: const EdgeInsets.only(right: 20),
                         child: Icon(Icons.favorite,color: ColorManager.green,),
                       ),
                     ],
@@ -104,11 +104,11 @@ Widget _customgirdimage(
       height:125,
       
       width: 392,
-      padding: EdgeInsets.only(top: 3,bottom: 8),
+      padding: const EdgeInsets.only(top: 3,bottom: 8),
         child: GridView.builder(
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
-            physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+            physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             itemCount:images .length,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent:150,
@@ -132,7 +132,7 @@ Widget _customgirdimage(
     String name,
     String image,
   ) {
-    return Container(
+    return SizedBox(
      
       height: 120,
       width: 80,
@@ -160,11 +160,11 @@ Widget _customgirdimage(
             ),
           Center(
             child: Padding(
-              padding: EdgeInsets.only(left: 10,top: 3),
+              padding: const EdgeInsets.only(left: 10,top: 3),
               child: Container(
                
                
-               child :Text(name,style: TextStyle(fontSize: 12),),
+               child :Text(name,style: const TextStyle(fontSize: 12),),
               ),
             ),
           )
@@ -173,7 +173,7 @@ Widget _customgirdimage(
     );
   }
     Widget _ads(){
-    return Container(
+    return SizedBox(
       height: 185,
       width: 375,
       child: CarouselSlider.builder(
@@ -182,7 +182,7 @@ Widget _customgirdimage(
         options: CarouselOptions(viewportFraction: 1,autoPlay: true),
       itemBuilder:(BuildContext context, int itemIndex, int pageViewIndex) =>
     
-       Container(
+       SizedBox(
         width: 392.72,
        child: Image.asset(images[itemIndex],fit: BoxFit.cover,)
        ),

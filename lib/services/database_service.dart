@@ -8,7 +8,7 @@ import 'package:firstapp/Authentication/auth_database.dart';
 
 
 class DatabaseService {
-  Auth _auth = Auth();
+  final Auth _auth = Auth();
 
   final _firebaseFirestore = FirebaseFirestore.instance;
 
@@ -27,7 +27,7 @@ class DatabaseService {
       required Function(String) onError}) async {
     await _firebaseFirestore
         .collection("cardsOfUser")
-        .doc(await _auth.getUser()?.uid)
+        .doc(_auth.getUser()?.uid)
         .update({
           "loyaltyCards": FieldValue.arrayUnion([
             {

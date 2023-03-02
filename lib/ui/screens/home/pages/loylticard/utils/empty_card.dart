@@ -2,9 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:firstapp/model/loylti_card.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/add_card.dart';
 import 'package:firstapp/ui/screens/home/pages/loylticard/utils/addLoyltiCard_aregument.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../../../resources/colors_manager.dart';
 import '../../../../../../resources/style_manager.dart';
 
@@ -26,7 +24,7 @@ class _EmptyCardState extends State<EmptyCard> {
             context,Addloylticard.id,arguments:AddloylticardArguments(loyltiCard: LoyltiCard(
                         backCardUrl: "",
                         vendor: "",
-                        cardName: "",
+                        cardNo: "",
                         frontCardUrl: "",
                         name: "",
                         id: "",
@@ -44,7 +42,7 @@ class _EmptyCardState extends State<EmptyCard> {
                 color: ColorManager.grey, //color of dotted/dash line
                 strokeWidth: 3, //thickness of dash/dots
                 dashPattern: [3, 4],
-                child: Container(
+                child: SizedBox(
                   height: Dimensions.height100,
                   width: Dimensions.width180,
                   child: const Icon(Icons.add),

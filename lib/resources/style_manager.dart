@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class Dimensions{
-  static double screenHeight =Get.context!.height;
-  static double screenWidth =Get.context!.width;
+  static double screenHeight =1.sh;
+  static double screenWidth =1.sw;
   //splashscreen
   static double splashlogo160=screenHeight*0.2;
   static double splashpadding313=screenHeight*0.400;

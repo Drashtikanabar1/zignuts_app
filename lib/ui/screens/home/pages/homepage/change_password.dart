@@ -1,10 +1,6 @@
 import 'package:firstapp/Authentication/auth_database.dart';
 import 'package:firstapp/coman_widget/buildinputdesign.dart';
-
-import 'package:firstapp/ui/screens/login/login_screen.dart';
-
 import 'package:firstapp/resources/colors_manager.dart';
-
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
@@ -19,8 +15,8 @@ class _ChangePasswordState extends State<ChangePassword> {
   final Auth _auth = Auth();
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
 
-  TextEditingController _passwordcontroller = TextEditingController();
-  TextEditingController _confirmpasswordcontroller = TextEditingController();
+  final TextEditingController _passwordcontroller = TextEditingController();
+  final TextEditingController _confirmpasswordcontroller = TextEditingController();
   final passValidator = MultiValidator([
     RequiredValidator(errorText: 'password is requried'),
     PatternValidator(
@@ -40,22 +36,20 @@ class _ChangePasswordState extends State<ChangePassword> {
         elevation: 0.00,
       ),
       body: SafeArea(
-        child: Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Align(alignment: Alignment.centerLeft, child: _titleWidget(h, w)),
-              SizedBox(
-                height: h * 0.05,
-              ),
-              _loginFormWidget(h, w),
-              SizedBox(
-                height: h * 0.05,
-              ),
-              _sendlink(h, w),
-            ],
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Align(alignment: Alignment.centerLeft, child: _titleWidget(h, w)),
+            SizedBox(
+              height: h * 0.05,
+            ),
+            _loginFormWidget(h, w),
+            SizedBox(
+              height: h * 0.05,
+            ),
+            _sendlink(h, w),
+          ],
         ),
       ),
     );
@@ -94,7 +88,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   Widget _loginFormWidget(double height, double w) {
     return Padding(
       padding: const EdgeInsets.only(left: 40,right: 30),
-      child: Container(
+      child: SizedBox(
    
           height: height * 0.25,
           child: Form(
@@ -119,8 +113,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                     controller: _confirmpasswordcontroller,
                     validate: (val) {
                       if (val!.isEmpty) return 'password is requried';
-                      if (val != _passwordcontroller.text)
+                      if (val != _passwordcontroller.text) {
                         return '"Both should match';
+                      }
                       return null;
                     })
               ],
@@ -131,27 +126,25 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   Widget _sendlink(double height, double width) {
     return Center(
-      child: Container(
-        child: ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(ColorManager.primary)),
-            child: Text("Rest PassWord", style: TextStyle(color: Colors.white)),
-            onPressed: () async {
-              if (_loginFormKey.currentState!.validate()) {
-                final user = await _auth
-                    .chnagePassword(_confirmpasswordcontroller.text.toString());
+      child: ElevatedButton(
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all(ColorManager.primary)),
+          child: const Text("Rest PassWord", style: TextStyle(color: Colors.white)),
+          onPressed: () async {
+            if (_loginFormKey.currentState!.validate()) {
+              final user = await _auth
+                  .chnagePassword(_confirmpasswordcontroller.text.toString());
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("passwors is change")));
-                Navigator.pushNamed(
-                  context,
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("passwors is change")));
+              Navigator.pushNamed(
+                context,
      
-              ChangePassword.id,
-                );
-              }
-            }),
-      ),
+            ChangePassword.id,
+              );
+            }
+          }),
     );
   }
 }

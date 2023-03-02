@@ -1,15 +1,16 @@
+  // ignore: use_build_context_synchronously
+
 import 'package:colours/colours.dart';
 import 'package:firstapp/authentication/auth_database.dart';
 import 'package:firstapp/coman_widget/buildinputdesign.dart';
 import 'package:firstapp/coman_widget/comoan_text.dart';
 import 'package:firstapp/coman_widget/custom_button.dart';
 import 'package:firstapp/resources/style_manager.dart';
+import 'package:firstapp/resources/validatot_manager.dart';
 import 'package:firstapp/ui/screens/home/pages/homepage/homepage.dart';
-
 import 'package:firstapp/resources/colors_manager.dart';
 import 'package:firstapp/resources/string_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import '../login/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -21,28 +22,11 @@ class RegisterScreen extends StatefulWidget {
 
 class _SignuppageState extends State<RegisterScreen> {
   final Auth _auth = Auth();
-  final emailValidator = MultiValidator([
-    RequiredValidator(errorText: StringManager.emailrequried),
-    PatternValidator(
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
-        errorText: StringManager.emailvalid)
-  ]);
-  final passValidator = MultiValidator([
-    RequiredValidator(errorText: StringManager.passwordrequried),
-    PatternValidator(
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
-        errorText: StringManager.passwordlvalid)
-  ]);
-  final usernameValidator = MultiValidator([
-    RequiredValidator(errorText: StringManager.confirmpasswordrequried),
-    MinLengthValidator(6, errorText: StringManager.userrequried),
-  ]);
-
   List images = ["g.png", "t.png", "f.png"];
-  TextEditingController _emailcontroller = TextEditingController();
-  TextEditingController _passwordcontroller = TextEditingController();
-  TextEditingController _confirmpasswordcontroller = TextEditingController();
-  TextEditingController _usercontroller = TextEditingController();
+  final TextEditingController _emailcontroller = TextEditingController();
+  final TextEditingController _passwordcontroller = TextEditingController();
+  final TextEditingController _confirmpasswordcontroller = TextEditingController();
+  final TextEditingController _usercontroller = TextEditingController();
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -58,7 +42,7 @@ class _SignuppageState extends State<RegisterScreen> {
             SizedBox(
               height: Dimensions.height23,
             ),
-            _RegisterPageLink(),
+            _registerPageLink(),
           ]),
         ),
       ),
@@ -66,7 +50,7 @@ class _SignuppageState extends State<RegisterScreen> {
   }
 
   Widget _loginFormWidget() {
-    return Container(
+    return SizedBox(
         height: Dimensions.height391,
         child: Form(
           key: _loginFormKey,
@@ -79,31 +63,26 @@ class _SignuppageState extends State<RegisterScreen> {
                 hintext: StringManager.usernamelhintext,
                 label: StringManager.usernamelable,
                 controller: _usercontroller,
-                validate: usernameValidator,
+                validate: Validator.usernameValidator,
               ),
               BuildInputBox(
                 hintext: StringManager.emaillhintext,
                 label: StringManager.emaillable,
                 controller: _emailcontroller,
-                validate: emailValidator,
+                validate: Validator.emailValidator,
               ),
               BuildInputBox(
                 hintext: StringManager.passwordlable,
                 label: StringManager.passwordlable,
                 controller: _passwordcontroller,
-                validate: passValidator,
+                validate: Validator.passValidator,
               ),
               BuildInputBox(
                 hintext: StringManager.confirmpassewordhintext,
                 label: StringManager.confirmpasswordlable,
                 controller: _confirmpasswordcontroller,
-                validate: (val) {
-                  if (val!.isEmpty)
-                    return StringManager.confirmpasswordrequried;
-                  if (val != _passwordcontroller.text)
-                    return StringManager.confirmpasswordvalid;
-                  return null;
-                },
+                validate:(value) => Validator.confirmpassworrd(value!,_passwordcontroller.text), 
+                
               ),
             ],
           ),
@@ -112,7 +91,7 @@ class _SignuppageState extends State<RegisterScreen> {
 
   Widget _loginButton(BuildContext context) {
     return CustomButton(
-      text: StringManager.signuupbutton      ,
+      text: StringManager.signuupbutton,
       onPressed: () async {
         if (_loginFormKey.currentState!.validate()) {
           final user = await _auth.creatnewaccount(
@@ -122,12 +101,14 @@ class _SignuppageState extends State<RegisterScreen> {
           );
           if (user != null) {
             if (user == "sucess") {
+              // ignore: use_build_context_synchronously
               Navigator.pushReplacementNamed(
                 context,HomePage.id);
             } else {
               print(user.toString());
             }
           } else {
+            // ignore: use_build_context_synchronously
             ScaffoldMessenger.of(context).showSnackBar(
                SnackBar(
                 content: Text(user.toString()),
@@ -139,7 +120,7 @@ class _SignuppageState extends State<RegisterScreen> {
     );
   }
 
-  Widget _RegisterPageLink() {
+  Widget _registerPageLink() {
     return Row(
       children: [
         Container(
@@ -172,13 +153,5 @@ class _SignuppageState extends State<RegisterScreen> {
     );
   }
 
-  Widget _google() {
-    return Row(
-        children: List<Widget>.generate(3, (index) {
-      return CircleAvatar(
-        radius: 25,
-        backgroundImage: AssetImage(" assest/images/" + images[index]),
-      );
-    }));
-  }
 }
+

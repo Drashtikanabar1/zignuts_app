@@ -16,7 +16,6 @@ class NetworkService {
     Map<String, dynamic>? body,
     bool isformdata,
   ) async {
-    print(endpoint);
     final jsonString = json.encode(body);
     final response = await http.post(Uri.parse(endpoint),
         headers: getHeader(), body: jsonString);
@@ -25,7 +24,6 @@ class NetworkService {
 
   Future<http.Response?> put(
       String endpoint, Map<String, dynamic>? body) async {
-    print(endpoint);
     final jsonString = json.encode(body);
     final response = await http
         .put(Uri.parse(endpoint), headers: getHeader(), body: jsonString)
@@ -38,7 +36,6 @@ class NetworkService {
     Map<String, dynamic>? body,
     bool isformdata,
   ) async {
-    print(endpoint);
     final jsonString = json.encode(body);
     final response = await http
         .patch(Uri.parse(endpoint), headers: getHeader(), body: jsonString)
@@ -64,7 +61,6 @@ class NetworkService {
     String endpoint,
     Map<String, String>? body,
   ) async {
-    print(endpoint);
     String queryString = Uri(queryParameters: body).query;
 
     final response = await http
@@ -80,7 +76,6 @@ class NetworkService {
     String endpoint,
     Map<String, dynamic>? body,
   ) async {
-    print(endpoint);
     final jsonString = json.encode(body);
     final response = await http
         .delete(Uri.parse(endpoint), headers: getHeader(), body: jsonString)
@@ -93,7 +88,6 @@ class NetworkService {
     Map<String, String>? body,
     bool isformdata,
   ) async {
-    print(endpoint);
     var request = http.MultipartRequest(
       'POST',
       Uri.parse(
@@ -112,7 +106,6 @@ class NetworkService {
     if (authToken != null && authToken.isNotEmpty) {
       map['Authorization'] = authToken;
     } else {
-      print('Authorization is failed');
     }
     return map;
   }
